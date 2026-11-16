@@ -264,10 +264,30 @@ html { scrollbar-color: #3a3a40 #0a0a0b; }
 .logo-img { display: block; height: 46px; width: auto; }
 .logo-img-lg { height: 84px; }
 .hero-logo { display: block; width: clamp(210px, 34vw, 400px); height: auto; margin: 0 0 6px -2%; }
-.hero-tag { margin: 0 0 14px; }
-.hero-tag-in { position: relative; display: inline-block; padding-bottom: 10px; font-family: var(--font-display); font-weight: 700; font-size: clamp(2.4rem, 7.2vw, 4.6rem); line-height: .85; letter-spacing: .04em; text-transform: uppercase; transform: skewX(-12deg); text-shadow: 0 2px 0 rgba(0,0,0,.55); white-space: nowrap; }
+.hero-tag { margin: 0 0 10px; }
+.hero-tag-in { position: relative; display: inline-block; padding: 0 .08em 12px 0; font-family: "Racing Sans One", var(--font-display); font-weight: 400; font-size: clamp(2.7rem, 10.5vw, 6.2rem); line-height: .9; letter-spacing: .01em; text-transform: uppercase; transform: skewX(-10deg); text-shadow: 0 3px 0 rgba(0,0,0,.6), 0 10px 24px rgba(0,0,0,.45); white-space: nowrap; }
 .hero-tag .t-blue { color: #3b7bff; }
 .hero-tag .t-white { color: #fff; }
 .hero-tag .t-red { color: #ef2b33; }
-.hero-tag-in::after { content: ""; position: absolute; left: 0; bottom: 0; width: 100%; height: 4px; background: linear-gradient(90deg, #3b7bff 0 33.3%, #fff 33.3% 66.6%, #ef2b33 66.6%); }
+.hero-tag-in::after { content: ""; position: absolute; left: 0; bottom: 0; width: 100%; height: 5px; background: linear-gradient(90deg, #3b7bff 0 33.3%, #fff 33.3% 66.6%, #ef2b33 66.6%); }
 @media (max-width: 860px) { .logo-img { height: 38px; } }
+
+@font-face { font-family: "Racing Sans One"; src: url("../assets/fonts/racing-sans-one.ttf") format("truetype"); font-display: swap; } /* SIL OFL, voir assets/fonts */
+/* Accueil : arrivée racing hors champ (≈0,7 s), « BIM BAM BOUM » */
+.hero-copy .hero-tag { will-change: transform; animation: zoomFromLeft .56s both; }
+.hero-copy .title-anim .line { overflow: visible; }
+.hero-copy .title-anim .line > span { transform: none; will-change: transform; animation: zoomFromRight .56s .07s both; }
+.hero-copy .title-anim .line:nth-child(2) > span { animation-name: zoomFromLeft; animation-delay: .14s; }
+@keyframes zoomFromLeft {
+  0% { transform: translate3d(-110vw, 0, 0) skewX(-18deg); filter: blur(7px); animation-timing-function: cubic-bezier(.08, .82, .22, 1); }
+  72% { transform: translate3d(1.2%, 0, 0) skewX(7deg); filter: blur(.6px); animation-timing-function: cubic-bezier(.3, .6, .4, 1); }
+  100% { transform: none; filter: none; }
+}
+@keyframes zoomFromRight {
+  0% { transform: translate3d(110vw, 0, 0) skewX(18deg); filter: blur(7px); animation-timing-function: cubic-bezier(.08, .82, .22, 1); }
+  72% { transform: translate3d(-1.2%, 0, 0) skewX(-7deg); filter: blur(.6px); animation-timing-function: cubic-bezier(.3, .6, .4, 1); }
+  100% { transform: none; filter: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-copy .hero-tag, .hero-copy .title-anim .line > span { animation: none; transform: none; filter: none; }
+}
