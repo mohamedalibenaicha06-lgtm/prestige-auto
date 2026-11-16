@@ -1,4 +1,4 @@
-/* PRESTIGE AUTO — Page Vente : un particulier propose son buggy */
+/* BEST OF PINS — Page Vente : un particulier propose son buggy */
 (function () {
   const form = document.getElementById("sell-form");
   const success = document.getElementById("form-success");
@@ -53,7 +53,7 @@
       PA.showSuccess(
         form,
         success,
-        `Bonjour PRESTIGE AUTO, je souhaite vendre mon buggy.\nModèle : ${model}\nAnnée : ${d.get("year")}\nPrix souhaité : ${price} ${d.get("currency")}\n` +
+        `Bonjour BEST OF PINS, je souhaite vendre mon buggy.\nModèle : ${model}\nAnnée : ${d.get("year")}\nPrix souhaité : ${price} ${d.get("currency")}\n` +
           (d.get("hours") ? `Heures / km : ${d.get("hours")}\n` : "") +
           (d.get("details").trim() ? `Détails : ${d.get("details").trim()}\n` : "") +
           `— ${d.get("name").trim()} · ${d.get("phone")}${d.get("email") ? " · " + d.get("email") : ""}\n(Je joins mes photos ci-dessous.)`

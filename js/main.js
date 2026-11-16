@@ -1,5 +1,5 @@
 /* =========================================================================
-   PRESTIGE AUTO — Script commun (en-tête, pied de page, animations)
+   BEST OF PINS — Script commun (en-tête, pied de page, animations)
    ========================================================================= */
 (function () {
   const page = document.body.dataset.page || "";
@@ -21,9 +21,8 @@
   if (header) {
     header.innerHTML = `
       <div class="header-inner container">
-        <a class="logo" href="index.html" aria-label="PRESTIGE AUTO — accueil">
-          <span class="logo-mark">P</span>
-          <span class="logo-text">PRESTIGE<em>AUTO</em></span>
+        <a class="logo" href="index.html" aria-label="BEST OF PINS — accueil">
+          <img class="logo-img" src="media/logo.webp" alt="BEST OF PINS" width="936" height="501">
         </a>
         <nav class="main-nav" id="main-nav" aria-label="Navigation principale">
           <ul>
@@ -73,7 +72,7 @@
     footer.innerHTML = `
       <div class="container footer-grid">
         <div>
-          <a class="logo" href="index.html"><span class="logo-mark">P</span><span class="logo-text">PRESTIGE<em>AUTO</em></span></a>
+          <a class="logo" href="index.html"><img class="logo-img logo-img-lg" src="media/logo.webp" alt="BEST OF PINS" width="936" height="501" loading="lazy"></a>
           <p class="muted footer-about">${PA.escape(c.tagline)}</p>
         </div>
         <div>
@@ -90,7 +89,7 @@
       </div>
       ${creditsHTML()}
       <div class="container footer-bottom">
-        <p>© ${new Date().getFullYear()} PRESTIGE AUTO. Can-Am, Maverick et Rotax sont des marques de BRP ; site indépendant, non affilié à BRP. Annonces présentées à titre d'exemple.</p>
+        <p>© ${new Date().getFullYear()} BEST OF PINS. Can-Am, Maverick et Rotax sont des marques de BRP ; site indépendant, non affilié à BRP. Annonces présentées à titre d'exemple.</p>
       </div>`;
   }
 
@@ -217,7 +216,7 @@
       <div class="sr-main">
         <div class="sr-stage" role="tabpanel">
           <span class="stage-word" aria-hidden="true"></span>
-          <div class="sr-car"></div>
+          <div class="sr-drive"><div class="sr-car"></div></div>
           <div class="sr-floor" aria-hidden="true"></div>
           <p class="sr-hint"></p>
         </div>
@@ -250,7 +249,7 @@
         <p class="sr-status">${m.available ? PA.escape(m.price || "Prix sur demande") : "Exemple — non disponible à la vente"}</p>
         <div class="card-actions">
           <a class="btn btn-gold" href="achat.html#${m.id}">Fiche complète <span class="arrow">→</span></a>
-          <a class="btn btn-outline" href="${PA.waLink("Bonjour PRESTIGE AUTO, je souhaite des informations sur le " + m.name + ".")}" target="_blank" rel="noopener">WhatsApp</a>
+          <a class="btn btn-outline" href="${PA.waLink("Bonjour BEST OF PINS, je souhaite des informations sur le " + m.name + ".")}" target="_blank" rel="noopener">WhatsApp</a>
         </div>`;
     }
     root.querySelector(".sr-tabs").addEventListener("click", (e) => { const t = e.target.closest(".sr-tab"); if (t) show(+t.dataset.i); });
@@ -271,7 +270,7 @@
   };
 
   PA.modelCard = function (m) {
-    const info = `Bonjour PRESTIGE AUTO, je souhaite des informations sur le ${m.name}.`;
+    const info = `Bonjour BEST OF PINS, je souhaite des informations sur le ${m.name}.`;
     return `
       <article class="car-card reveal zoom" id="${m.id}">
         <div class="car-card-stage">

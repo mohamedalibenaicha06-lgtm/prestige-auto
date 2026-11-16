@@ -1,4 +1,4 @@
-/* PRESTIGE AUTO — Page Contact */
+/* BEST OF PINS — Page Contact */
 (function () {
   const form = document.getElementById("contact-form");
   const success = document.getElementById("form-success");
@@ -53,7 +53,7 @@
       PA.showSuccess(
         form,
         success,
-        `Bonjour PRESTIGE AUTO,\nSujet : ${label}${mod ? "\nModèle : " + mod.name : ""}\n${data.get("message").trim()}\n— ${data.get("name").trim()}${data.get("phone") ? " · " + data.get("phone") : ""}${data.get("email") ? " · " + data.get("email") : ""}`
+        `Bonjour BEST OF PINS,\nSujet : ${label}${mod ? "\nModèle : " + mod.name : ""}\n${data.get("message").trim()}\n— ${data.get("name").trim()}${data.get("phone") ? " · " + data.get("phone") : ""}${data.get("email") ? " · " + data.get("email") : ""}`
       );
     }
   );

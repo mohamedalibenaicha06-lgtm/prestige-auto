@@ -1,4 +1,4 @@
-/* PRESTIGE AUTO — Accueil, Achat, Raids & Randonnées, Vidéos */
+/* BEST OF PINS — Accueil, Achat, Raids & Randonnées, Vidéos */
 (function () {
   const $ = (id) => document.getElementById(id);
   const cfg = window.SITE_CONFIG;
@@ -36,8 +36,8 @@
     const r = RAIDS.main;
     const g = RAIDS.gallery;
     $("raid-visual").innerHTML = PA.photoHTML("raid2", PA.media(g[0] && g[0].src, PA.sceneSVG("dunes", { title: "Illustration : dunes du Maroc" }), r.name));
-    const top = $("raid-wa-top"); if (top) top.href = PA.waLink(`Bonjour PRESTIGE AUTO, je souhaite me renseigner sur le ${r.name} (${r.dates}, ${r.place}).`);
-    $("raid-wa").href = PA.waLink(`Bonjour PRESTIGE AUTO, je souhaite me renseigner sur le ${r.name} (${r.dates}, ${r.place}).`);
+    const top = $("raid-wa-top"); if (top) top.href = PA.waLink(`Bonjour BEST OF PINS, je souhaite me renseigner sur le ${r.name} (${r.dates}, ${r.place}).`);
+    $("raid-wa").href = PA.waLink(`Bonjour BEST OF PINS, je souhaite me renseigner sur le ${r.name} (${r.dates}, ${r.place}).`);
 
     const art = (it) => PA.photoHTML(it.photo, PA.media(it.src, PA.sceneSVG(it.scene, { title: "Illustration : " + it.caption }), it.caption));
     $("gallery").innerHTML = g

@@ -1,5 +1,5 @@
 /* =========================================================================
-   PRESTIGE AUTO — Illustrations vectorielles (provisoires)
+   BEST OF PINS — Illustrations vectorielles (provisoires)
    Remplacées automatiquement par vos photos dès qu'un chemin est renseigné
    dans js/data.js. Aucune image externe.
    ========================================================================= */

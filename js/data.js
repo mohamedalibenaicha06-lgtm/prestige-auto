@@ -1,5 +1,5 @@
 /* =========================================================================
-   PRESTIGE AUTO — Configuration et contenus du site
+   BEST OF PINS — Configuration et contenus du site
    -------------------------------------------------------------------------
    • Les 4 annonces sont des EXEMPLES : aucun véhicule n'est en stock,
      aucun prix n'est indiqué.
@@ -14,7 +14,7 @@
    ========================================================================= */
 
 window.SITE_CONFIG = {
-  name: "PRESTIGE AUTO",
+  name: "BEST OF PINS",
   tagline: "Buggys Can-Am · Achat · Vente · Raids",
   // Numéro WhatsApp au format international SANS "+" ni espaces (ex. "212600000000").
   // Vide : le bouton ouvre WhatsApp et l'utilisateur choisit le destinataire.
@@ -30,10 +30,10 @@ window.SITE_CONFIG = {
    Les crédits (auteur + licence) s'affichent automatiquement : obligatoires
    pour les licences CC BY / CC BY-SA. Clés utilisées par le site :
    hero (accueil), raid (bandeaux raid), raid2 (fiche du raid), xrs, x3…
-   Pour vos propres photos : ajoutez une entrée { src, alt, title, author: "PRESTIGE AUTO" }. */
-const OWN = { author: "PRESTIGE AUTO", own: true };
+   Pour vos propres photos : ajoutez une entrée { src, alt, title, author: "BEST OF PINS" }. */
+const OWN = { author: "BEST OF PINS", own: true };
 window.PHOTOS = {
-  // Photos PRESTIGE AUTO (sorties au Maroc). Métadonnées (GPS…) supprimées.
+  // Photos BEST OF PINS (sorties au Maroc). Métadonnées (GPS…) supprimées.
   hero: { ...OWN, src: "media/maroc-dune.webp", wide: "media/maroc-dune-large.webp", alt: "Buggy Can-Am X RS sur une dune du désert marocain", focus: "50% 60%" },
   raid: { ...OWN, src: "media/maroc-arche.webp", wide: "media/maroc-arche-large.webp", alt: "Buggy Can-Am vu à travers une arche marocaine, désert en arrière-plan" },
   raidBand: { ...OWN, src: "media/maroc-lac.webp", alt: "Convoi de buggys Can-Am au bord d'un lac au Maroc" },
@@ -263,6 +263,6 @@ PA.escape = (s) =>
 PA.getModel = (id) => window.MODELS.find((m) => m.id === id);
 PA.waLink = (message) => {
   const n = (window.SITE_CONFIG.whatsappNumber || "").replace(/\D/g, "");
-  const text = encodeURIComponent(message || "Bonjour PRESTIGE AUTO, je souhaite obtenir des informations.");
+  const text = encodeURIComponent(message || "Bonjour BEST OF PINS, je souhaite obtenir des informations.");
   return n ? `https://wa.me/${n}?text=${text}` : `https://wa.me/?text=${text}`;
 };

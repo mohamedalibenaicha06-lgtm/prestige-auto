@@ -1,5 +1,5 @@
 /* =========================================================================
-   PRESTIGE AUTO — Couche « sport / rallye »
+   BEST OF PINS — Couche « sport / rallye »
    Chargée après style.css : typographies, titres inclinés, lignes de vitesse,
    coupes en biais entre sections, effets de survol. Animations limitées à
    transform/opacity (fluides sur mobile) et désactivées si « réduire les
@@ -22,9 +22,7 @@ h1 { font-size: clamp(3.4rem, 9vw, 7.5rem); }
 h2 { font-size: clamp(2.6rem, 6vw, 4.6rem); }
 h3 { font-size: 1.9rem; }
 h1 em, h2 em {
-  font-style: normal; color: transparent;
-  background: linear-gradient(100deg, #ffb26b 0%, #ff6b1a 45%, #e8480a 100%);
-  -webkit-background-clip: text; background-clip: text;
+  font-style: normal; color: var(--gold);
 }
 .eyebrow, .btn, .badge, .chip span, .car-brand, .tbc, .sample-flag, .main-nav ul a, .logo-text, .tile-num, .video-cat, .key-list span, .raid-facts small, .next-badge, .field label {
   font-family: var(--font-tech);
@@ -47,7 +45,7 @@ h1 em, h2 em {
   padding: 15px 30px; transition: transform .3s var(--ease), background .3s, color .3s, border-color .3s, box-shadow .3s;
 }
 .btn:hover { transform: skewX(var(--skew)) translateY(-3px); }
-.btn-gold:hover { box-shadow: 0 16px 34px -12px rgba(255,107,26,.85); }
+.btn-gold:hover { box-shadow: 0 14px 26px -12px rgba(0,0,0,.8); }
 .btn .arrow { display: inline-block; transition: transform .3s var(--ease); }
 .btn:hover .arrow { transform: translateX(5px); }
 .btn-outline { border-width: 2px; }
@@ -59,7 +57,7 @@ h1 em, h2 em {
 .stripe { height: 6px; background: repeating-linear-gradient(-60deg, var(--gold) 0 18px, transparent 18px 30px); opacity: .9; }
 
 /* ---------- Lignes de vitesse ---------- */
-.speedlines { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; mix-blend-mode: screen; }
+.speedlines { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
 .speedlines i {
   position: absolute; left: -40%; height: 2px; width: 35%; border-radius: 2px;
   background: linear-gradient(90deg, transparent, rgba(255,160,90,.75), transparent);
@@ -83,7 +81,7 @@ h1 em, h2 em {
 .hero.has-photo .hero-grid { grid-template-columns: 1fr; grid-template-rows: none; min-height: 0; }
 .hero-quick { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 34px; max-width: 760px; }
 .hero-quick a {
-  position: relative; display: flex; flex-direction: column; gap: 2px; padding: 14px 16px; border-left: 3px solid var(--gold);
+  position: relative; display: flex; flex-direction: column; gap: 2px; padding: 14px 16px; border: 1px solid rgba(255,255,255,.14);
   background: rgba(10,10,11,.55); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
   transition: background .3s, transform .3s var(--ease);
 }
@@ -97,12 +95,8 @@ h1 em, h2 em {
 .car-card { border-radius: 6px; }
 .car-card-stage .photo { transition: transform .8s var(--ease); }
 .car-card:hover .photo { transform: scale(1.07); }
-.car-card::before {
-  content: ""; position: absolute; z-index: 2; top: 0; left: 0; width: 100%; height: 4px; background: var(--gold-grad);
-  transform: scaleX(0); transform-origin: left; transition: transform .5s var(--ease);
-}
+
 .car-card { position: relative; }
-.car-card:hover::before { transform: scaleX(1); }
 .car-model { font-size: 2.3rem; }
 .img-note { position: absolute; right: 10px; top: 52px; z-index: 2; font-size: .68rem; background: rgba(0,0,0,.65); padding: 3px 8px; border-radius: 3px; color: rgba(255,255,255,.8); }
 
@@ -203,10 +197,10 @@ h1 em, h2 em {
 .sr-tab[aria-selected="true"]::after { transform: scaleX(1); }
 .sr-tab:active { transform: skewX(var(--skew)) scale(.97); }
 .sr-main { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr); gap: 0; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: var(--ink); }
-.sr-stage { position: relative; aspect-ratio: 16 / 10; background: var(--stage-bg); overflow: hidden; touch-action: pan-y; user-select: none; -webkit-user-select: none; display: grid; place-items: center; }
-.sr-stage::before { /* sol en perspective */ content: ""; position: absolute; left: -20%; right: -20%; bottom: 0; height: 38%; background: repeating-linear-gradient(90deg, rgba(255,255,255,.05) 0 1px, transparent 1px 60px), linear-gradient(transparent, rgba(0,0,0,.6)); transform: perspective(400px) rotateX(58deg); transform-origin: bottom; mask-image: linear-gradient(transparent, #000 60%); -webkit-mask-image: linear-gradient(transparent, #000 60%); }
+.sr-stage { position: relative; aspect-ratio: 16 / 10; min-height: 100%; background: var(--stage-bg); overflow: hidden; touch-action: pan-y; user-select: none; -webkit-user-select: none; display: grid; place-items: center; }
+.sr-stage::before { /* sol en perspective */ content: ""; position: absolute; left: -20%; right: -20%; bottom: 0; height: 38%; background: radial-gradient(60% 70% at 50% 0%, rgba(255,255,255,.07), transparent 70%), linear-gradient(rgba(255,255,255,.03), rgba(0,0,0,.55)); border-top: 1px solid rgba(255,255,255,.06); }
 .stage-word { position: absolute; left: 50%; top: 46%; translate: -50% -50%; font-family: var(--font-display); font-weight: 600; text-transform: uppercase; white-space: nowrap; line-height: .8; font-size: clamp(5rem, 20vw, 15rem); color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,.12); pointer-events: none; }
-.sr-car { position: relative; z-index: 1; width: 88%; }
+.sr-drive { position: relative; z-index: 1; width: 88%; }
 .car-cutout { display: block; width: 100%; height: auto; object-fit: contain; filter: drop-shadow(0 24px 22px rgba(0,0,0,.65)); }
 .car-art .buggy-svg { display: block; width: 100%; height: auto; }
 .sr-floor { position: absolute; left: 15%; right: 15%; bottom: 11%; height: 14%; background: radial-gradient(50% 50% at 50% 50%, rgba(255,107,26,.28), transparent 70%); filter: blur(6px); pointer-events: none; }
@@ -247,7 +241,7 @@ h1 em, h2 em {
 @media (max-width: 860px) {
   .sr-main { grid-template-columns: 1fr; }
   .sr-stage { aspect-ratio: 4 / 3; }
-  .sr-car { width: 96%; }
+  .sr-drive { width: 96%; }
   .sr-info { border-left: 0; border-top: 1px solid var(--line); padding: 22px 18px 24px; }
   .sr-tab { min-width: 96px; padding: 8px 14px 10px; }
   .sr-tab b { font-size: 1.35rem; }
@@ -258,3 +252,16 @@ h1 em, h2 em {
 .page-hero-compact { padding-bottom: 8px; } .page-hero-compact h1 { font-size: clamp(2.6rem, 7vw, 5.2rem); }
 .card-actions .btn-gold { min-width: 0; padding-inline: 14px; letter-spacing: .04em; white-space: normal; text-align: center; line-height: 1.2; }
 .btn.btn-icon { padding: 0; } .btn svg { max-width: none; }
+
+/* Surfaces navigateur aux couleurs du site */
+::selection { background: var(--gold); color: #0a0a0b; }
+input, textarea, select { caret-color: var(--gold); accent-color: var(--gold); }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+html { scrollbar-color: #3a3a40 #0a0a0b; }
+.sr-specs b, .countdown, .key-list b { font-variant-numeric: tabular-nums; }
+
+/* Logo BEST OF PINS (fond noir fondu dans le décor) */
+.logo-img { display: block; height: 46px; width: auto; }
+.logo-img-lg { height: 84px; }
+.hero-logo { display: block; width: clamp(210px, 34vw, 400px); height: auto; margin: 0 0 6px -2%; }
+@media (max-width: 860px) { .logo-img { height: 38px; } }

@@ -1,4 +1,4 @@
-/* PRESTIGE AUTO — Validation de formulaires (réutilisée par Vente et Contact)
+/* BEST OF PINS — Validation de formulaires (réutilisée par Vente et Contact)
    Site statique : aucune donnée n'est envoyée à un serveur. Après validation,
    l'utilisateur peut transmettre sa demande par WhatsApp (message prérempli). */
 (function () {
