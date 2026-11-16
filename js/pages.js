@@ -7,11 +7,11 @@
   if ($("hero-bg")) {
     const ph = PA.photo("hero");
     if (ph || cfg.heroPhoto) {
-      $("hero-bg").innerHTML = ph ? PA.photoHTML("hero") : PA.media(cfg.heroPhoto, "", "Buggy Can-Am en action");
+      $("hero-bg").innerHTML = ph ? PA.photoHTML("hero", "", true) : PA.media(cfg.heroPhoto, "", "Buggy Can-Am en action");
       const hero = document.querySelector(".hero");
       hero.classList.add("has-photo");
       if (ph && ph.focus) hero.style.setProperty("--focus", ph.focus);
-      if (ph) hero.insertAdjacentHTML("beforeend", `<p class="photo-credit">Photo : ${PA.escape(ph.author)} · <a href="${PA.escape(ph.licenseUrl)}" target="_blank" rel="noopener">${PA.escape(ph.license)}</a></p>`);
+      if (ph && !ph.own) hero.insertAdjacentHTML("beforeend", `<p class="photo-credit">Photo : ${PA.escape(ph.author)} · <a href="${PA.escape(ph.licenseUrl)}" target="_blank" rel="noopener">${PA.escape(ph.license)}</a></p>`);
       $("hero-car").remove();
     } else {
       $("hero-bg").innerHTML = PA.sceneSVG("dunes");
@@ -78,7 +78,7 @@
       } else if (v.src) {
         media = `<video controls preload="none" playsinline ${v.poster ? `poster="${PA.escape(v.poster)}"` : ""} src="${PA.escape(v.src)}"></video>`;
       } else {
-        media = `<div class="video-poster is-empty">${PA.sceneSVG(sceneFor[v.category] || "dunes")}<span class="play" aria-hidden="true"></span><span class="soon">Vidéo à venir</span></div>`;
+        media = `<div class="video-poster is-empty">${PA.photoHTML(v.photo, PA.sceneSVG(sceneFor[v.category] || "dunes"))}<span class="play" aria-hidden="true"></span><span class="soon">Vidéo à venir</span></div>`;
       }
       return `<article class="video-card reveal" data-cat="${PA.escape(v.category)}">
         <div class="video-frame">${media}</div>

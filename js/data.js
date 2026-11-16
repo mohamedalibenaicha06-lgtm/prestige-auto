@@ -31,7 +31,31 @@ window.SITE_CONFIG = {
    pour les licences CC BY / CC BY-SA. Clés utilisées par le site :
    hero (accueil), raid (bandeaux raid), raid2 (fiche du raid), xrs, x3…
    Pour vos propres photos : ajoutez une entrée { src, alt, title, author: "PRESTIGE AUTO" }. */
-window.PHOTOS = {};
+const OWN = { author: "PRESTIGE AUTO", own: true };
+window.PHOTOS = {
+  // Photos PRESTIGE AUTO (désert). Les variantes de couleur sont des retouches
+  // de la même photo, utilisées comme visuels d'ambiance (non contractuels).
+  hero: { ...OWN, src: "media/avant-noir.webp", wide: "media/avant-noir-large.webp", alt: "Buggy Can-Am noir dans les dunes, phares allumés", focus: "50% 45%" },
+  raid: { ...OWN, src: "media/avant-noir.webp", wide: "media/avant-noir-large.webp", alt: "Buggy Can-Am dans les dunes" },
+  raidBand: { ...OWN, src: "media/buggy-orange.webp", alt: "Buggy Can-Am Maverick X3 dans le sable" },
+  raid2: { ...OWN, src: "media/buggy-turquoise.webp", alt: "Buggy Can-Am Maverick X3 dans le désert" },
+  xrs: { ...OWN, src: "media/buggy-orange.webp", alt: "Buggy Can-Am Maverick X3, coloris orange (visuel d'ambiance)" },
+  xrc: { ...OWN, src: "media/buggy-turquoise.webp", alt: "Buggy Can-Am Maverick X3, coloris turquoise (visuel d'ambiance)" },
+  maxrs: { ...OWN, src: "media/avant-noir-carte.webp", alt: "Buggy Can-Am noir vu de face (visuel d'ambiance)" },
+  maxrc: { ...OWN, src: "media/buggy-rouge.webp", alt: "Buggy Can-Am Maverick X3, coloris rouge (visuel d'ambiance)" },
+  g1: { ...OWN, src: "media/avant-noir.webp", alt: "Buggy Can-Am noir dans les dunes" },
+  g2: { ...OWN, src: "media/buggy-blanc.webp", alt: "Buggy Can-Am blanc dans le désert" },
+  g3: { ...OWN, src: "media/buggy-bleu.webp", alt: "Buggy Can-Am bleu dans le sable" },
+  g4: { ...OWN, src: "media/buggy-jaune.webp", alt: "Buggy Can-Am jaune dans le désert" },
+  g5: { ...OWN, src: "media/buggy-rouge.webp", alt: "Buggy Can-Am rouge dans le sable" },
+  g6: { ...OWN, src: "media/buggy-turquoise.webp", alt: "Buggy Can-Am turquoise dans les dunes" },
+  v1: { ...OWN, src: "media/buggy-orange.webp", alt: "" },
+  v2: { ...OWN, src: "media/buggy-jaune.webp", alt: "" },
+  v3: { ...OWN, src: "media/buggy-blanc.webp", alt: "" },
+  v4: { ...OWN, src: "media/buggy-bleu.webp", alt: "" },
+  v5: { ...OWN, src: "media/avant-noir-carte.webp", alt: "" },
+  v6: { ...OWN, src: "media/buggy-rouge.webp", alt: "" },
+};
 
 const OFFICIAL_BASE = "https://can-am.brp.com/off-road/ca/fr/modeles/cote-a-cote/sport/maverick-x3.html/trim/";
 const SPEC_BASE = "https://can-am.brp.com/content/dam/global/en/can-am-off-road/my27/spec-sheets/na/fr/";
@@ -43,6 +67,8 @@ const ENGINE_TURBO_RR =
 window.MODELS = [
   {
     id: "maverick-x3-x-rs",
+    photo: "xrs",
+    photoNote: "Visuel d'ambiance — non contractuel",
     name: "Maverick X3 X rs Turbo RR",
     short: "X rs",
     year: 2027,
@@ -76,6 +102,8 @@ window.MODELS = [
   },
   {
     id: "maverick-x3-x-rc",
+    photo: "xrc",
+    photoNote: "Visuel d'ambiance — non contractuel",
     name: "Maverick X3 X rc Turbo RR",
     short: "X rc",
     year: 2027,
@@ -109,6 +137,8 @@ window.MODELS = [
   },
   {
     id: "maverick-x3-max-x-rs",
+    photo: "maxrs",
+    photoNote: "Visuel d'ambiance — non contractuel",
     name: "Maverick X3 MAX X rs Turbo RR",
     short: "MAX X rs",
     year: 2027,
@@ -141,6 +171,8 @@ window.MODELS = [
   },
   {
     id: "maverick-x3-max-x-rc",
+    photo: "maxrc",
+    photoNote: "Visuel d'ambiance — non contractuel",
     name: "Maverick X3 MAX X rc Turbo RR",
     short: "MAX X rc",
     year: 2027,
@@ -184,12 +216,12 @@ window.RAIDS = {
   },
   // Galerie : renseignez "src" avec vos photos (ex. "media/raid-1.jpg").
   gallery: [
-    { src: "", caption: "Marrakech", scene: "city" },
-    { src: "", caption: "Pistes du Haut Atlas", scene: "mountain" },
-    { src: "", caption: "Dunes au coucher du soleil", scene: "dunes" },
-    { src: "", caption: "Plateaux et reg", scene: "plain" },
-    { src: "", caption: "Bivouac sous les étoiles", scene: "night" },
-    { src: "", caption: "Le convoi en action", scene: "dunes" },
+    { photo: "g1", src: "", caption: "Prêt pour le départ", scene: "dunes" },
+    { photo: "g2", src: "", caption: "Dans les dunes", scene: "dunes" },
+    { photo: "g3", src: "", caption: "Sur le sable", scene: "plain" },
+    { photo: "g4", src: "", caption: "Coucher de soleil", scene: "dunes" },
+    { photo: "g5", src: "", caption: "En piste", scene: "plain" },
+    { photo: "g6", src: "", caption: "Le terrain de jeu", scene: "dunes" },
   ],
 };
 
@@ -197,12 +229,12 @@ window.RAIDS = {
    (fichier mp4 dans media/), SOIT "youtube" (identifiant de la vidéo,
    ex. "dQw4w9WgXcQ"). "poster" = image d'aperçu facultative. */
 window.VIDEOS = [
-  { title: "Essai Maverick X3 dans les dunes", category: "Buggys", src: "", youtube: "", poster: "" },
-  { title: "Préparation d'un buggy avant raid", category: "Buggys", src: "", youtube: "", poster: "" },
-  { title: "Randonnée dans le Haut Atlas", category: "Randonnées", src: "", youtube: "", poster: "" },
-  { title: "Sortie découverte en groupe", category: "Randonnées", src: "", youtube: "", poster: "" },
-  { title: "Royal Raid Maroc — résumé", category: "Raids", src: "", youtube: "", poster: "" },
-  { title: "Bivouac et ambiance du raid", category: "Raids", src: "", youtube: "", poster: "" },
+  { title: "Essai Maverick X3 dans les dunes", category: "Buggys", src: "", youtube: "", poster: "", photo: "v1" },
+  { title: "Préparation d'un buggy avant raid", category: "Buggys", src: "", youtube: "", poster: "", photo: "v2" },
+  { title: "Randonnée dans le Haut Atlas", category: "Randonnées", src: "", youtube: "", poster: "", photo: "v3" },
+  { title: "Sortie découverte en groupe", category: "Randonnées", src: "", youtube: "", poster: "", photo: "v4" },
+  { title: "Royal Raid Maroc — résumé", category: "Raids", src: "", youtube: "", poster: "", photo: "v5" },
+  { title: "Bivouac et ambiance du raid", category: "Raids", src: "", youtube: "", poster: "", photo: "v6" },
 ];
 
 /* --------- Utilitaires partagés --------- */

@@ -58,7 +58,7 @@
   }
 
   function creditsHTML() {
-    const list = Object.values(window.PHOTOS || {});
+    const list = Object.values(window.PHOTOS || {}).filter((p) => !p.own);
     if (!list.length) return "";
     return `<div class="container"><details class="credits"><summary>Crédits photos</summary><ul>${list
       .map((p) => `<li>${PA.escape(p.title)} — ${PA.escape(p.author)}, <a href="${PA.escape(p.licenseUrl)}" target="_blank" rel="noopener">${PA.escape(p.license)}</a>, via <a href="${PA.escape(p.source)}" target="_blank" rel="noopener">Wikimedia Commons</a>${p.edited ? " (recadrée et compressée)" : ""}</li>`)
@@ -207,15 +207,18 @@
 
   /* ---------- Photos sous licence libre (voir PHOTOS dans data.js) ---------- */
   PA.photo = (key) => (window.PHOTOS || {})[key] || null;
-  PA.photoHTML = function (key, fallback) {
+  PA.photoHTML = function (key, fallback, eager) {
     const ph = PA.photo(key);
-    return ph ? PA.media(ph.src, "", ph.alt) : fallback;
+    if (!ph) return fallback;
+    const img = `<img class="photo" src="${PA.escape(ph.src)}" alt="${PA.escape(ph.alt || "")}" ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async">`;
+    // Photo paysage sur écran large, portrait sur téléphone
+    return ph.wide ? `<picture class="photo-pic"><source media="(min-aspect-ratio: 1/1)" srcset="${PA.escape(ph.wide)}">${img}</picture>` : img;
   };
 
   /* ---------- Fonds : photo si disponible, sinon illustration ---------- */
   document.querySelectorAll("[data-scene], [data-photo]").forEach((el) => {
     if (el.innerHTML.trim()) return;
-    el.innerHTML = PA.photoHTML(el.dataset.photo, el.dataset.scene ? PA.sceneSVG(el.dataset.scene) : "");
+    el.innerHTML = PA.photoHTML(el.dataset.photo, el.dataset.scene ? PA.sceneSVG(el.dataset.scene) : "", el.dataset.eager !== undefined);
     if (PA.photo(el.dataset.photo)) el.classList.add("is-photo");
   });
 

@@ -171,3 +171,20 @@ h1 em, h2 em {
 .sell-model > span:last-child { padding: 0 16px; font-size: .85rem; color: var(--gold); font-family: var(--font-tech); }
 @media (max-width: 860px) { .sell-models { grid-template-columns: repeat(2, 1fr); } }
 .raid-band-bg.is-photo .photo, .raid-hero-bg .photo { object-fit: cover; }
+.photo-pic { display: block; width: 100%; height: 100%; }
+.photo-pic .photo { width: 100%; height: 100%; object-fit: cover; }
+.hero .photo-pic .photo { object-position: var(--focus, 50% 50%); }
+.video-poster.is-empty .photo { opacity: .65; }
+.gallery-item .photo { height: 100%; object-fit: cover; }
+
+/* Correctifs */
+.btn svg { flex: none; width: 22px; height: 22px; }
+.car-card-stage .badge, .car-card-stage .sample-flag, .car-card-stage .img-note { z-index: 2; }
+@media (max-width: 640px) {
+  .hero-actions { flex-wrap: wrap !important; }
+  .hero-actions .btn { flex: 1 1 100%; }
+  .hero-copy { min-width: 0; max-width: 100%; }
+  .hero-grid { grid-template-columns: minmax(0, 1fr) !important; }
+}
+.gallery-item > .photo, .gallery-item > .photo-pic, .gallery-item > .art { position: absolute; inset: 0; }
+.raid-hero-bg .photo { object-position: 50% 30%; }
