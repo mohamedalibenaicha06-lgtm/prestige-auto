@@ -33,27 +33,26 @@ window.SITE_CONFIG = {
    Pour vos propres photos : ajoutez une entrée { src, alt, title, author: "PRESTIGE AUTO" }. */
 const OWN = { author: "PRESTIGE AUTO", own: true };
 window.PHOTOS = {
-  // Photos PRESTIGE AUTO (désert). Les variantes de couleur sont des retouches
-  // de la même photo, utilisées comme visuels d'ambiance (non contractuels).
-  hero: { ...OWN, src: "media/avant-noir.webp", wide: "media/avant-noir-large.webp", alt: "Buggy Can-Am noir dans les dunes, phares allumés", focus: "50% 45%" },
-  raid: { ...OWN, src: "media/avant-noir.webp", wide: "media/avant-noir-large.webp", alt: "Buggy Can-Am dans les dunes" },
-  raidBand: { ...OWN, src: "media/buggy-orange.webp", alt: "Buggy Can-Am Maverick X3 dans le sable" },
-  raid2: { ...OWN, src: "media/buggy-turquoise.webp", alt: "Buggy Can-Am Maverick X3 dans le désert" },
-  xrs: { ...OWN, src: "media/buggy-orange.webp", alt: "Buggy Can-Am Maverick X3, coloris orange (visuel d'ambiance)" },
-  xrc: { ...OWN, src: "media/buggy-turquoise.webp", alt: "Buggy Can-Am Maverick X3, coloris turquoise (visuel d'ambiance)" },
-  maxrs: { ...OWN, src: "media/avant-noir-carte.webp", alt: "Buggy Can-Am noir vu de face (visuel d'ambiance)" },
-  maxrc: { ...OWN, src: "media/buggy-rouge.webp", alt: "Buggy Can-Am Maverick X3, coloris rouge (visuel d'ambiance)" },
-  g1: { ...OWN, src: "media/avant-noir.webp", alt: "Buggy Can-Am noir dans les dunes" },
-  g2: { ...OWN, src: "media/buggy-blanc.webp", alt: "Buggy Can-Am blanc dans le désert" },
-  g3: { ...OWN, src: "media/buggy-bleu.webp", alt: "Buggy Can-Am bleu dans le sable" },
-  g4: { ...OWN, src: "media/buggy-jaune.webp", alt: "Buggy Can-Am jaune dans le désert" },
-  g5: { ...OWN, src: "media/buggy-rouge.webp", alt: "Buggy Can-Am rouge dans le sable" },
-  g6: { ...OWN, src: "media/buggy-turquoise.webp", alt: "Buggy Can-Am turquoise dans les dunes" },
+  // Photos PRESTIGE AUTO (sorties au Maroc). Métadonnées (GPS…) supprimées.
+  hero: { ...OWN, src: "media/maroc-dune.webp", wide: "media/maroc-dune-large.webp", alt: "Buggy Can-Am X RS sur une dune du désert marocain", focus: "50% 60%" },
+  raid: { ...OWN, src: "media/maroc-arche.webp", wide: "media/maroc-arche-large.webp", alt: "Buggy Can-Am vu à travers une arche marocaine, désert en arrière-plan" },
+  raidBand: { ...OWN, src: "media/maroc-lac.webp", alt: "Convoi de buggys Can-Am au bord d'un lac au Maroc" },
+  raid2: { ...OWN, src: "media/maroc-duo-large.webp", alt: "Deux buggys Can-Am X RS au sommet d'une dune" },
+  xrs: { ...OWN, src: "media/carte-xrs.webp", alt: "Buggy Can-Am X RS dans les dunes (visuel d'ambiance)" },
+  xrc: { ...OWN, src: "media/carte-xrc.webp", alt: "Buggy Can-Am Maverick X3 couvert de boue (visuel d'ambiance)" },
+  maxrs: { ...OWN, src: "media/carte-maxrs.webp", alt: "Buggy Can-Am 4 places après une étape (visuel d'ambiance)" },
+  maxrc: { ...OWN, src: "media/carte-maxrc.webp", alt: "Buggy Can-Am 4 places X RS sur le sable (visuel d'ambiance)" },
+  g1: { ...OWN, src: "media/maroc-arche.webp", alt: "Buggy à travers une arche marocaine" },
+  g2: { ...OWN, src: "media/maroc-lac.webp", alt: "Convoi de buggys au bord d'un lac" },
+  g3: { ...OWN, src: "media/maroc-duo.webp", alt: "Deux buggys au sommet d'une dune" },
+  g4: { ...OWN, src: "media/maroc-plage.webp", alt: "Buggy couvert de boue au coucher du soleil sur la plage" },
+  g5: { ...OWN, src: "media/maroc-etape.webp", alt: "Buggys arrivés à l'étape" },
+  g6: { ...OWN, src: "media/maroc-dune.webp", alt: "Buggy face à l'immensité du désert" },
   v1: { ...OWN, src: "media/buggy-orange.webp", alt: "" },
   v2: { ...OWN, src: "media/buggy-jaune.webp", alt: "" },
   v3: { ...OWN, src: "media/buggy-blanc.webp", alt: "" },
   v4: { ...OWN, src: "media/buggy-bleu.webp", alt: "" },
-  v5: { ...OWN, src: "media/avant-noir-carte.webp", alt: "" },
+  v5: { ...OWN, src: "media/maroc-duo-large.webp", alt: "" },
   v6: { ...OWN, src: "media/buggy-rouge.webp", alt: "" },
 };
 
@@ -216,12 +215,12 @@ window.RAIDS = {
   },
   // Galerie : renseignez "src" avec vos photos (ex. "media/raid-1.jpg").
   gallery: [
-    { photo: "g1", src: "", caption: "Prêt pour le départ", scene: "dunes" },
-    { photo: "g2", src: "", caption: "Dans les dunes", scene: "dunes" },
-    { photo: "g3", src: "", caption: "Sur le sable", scene: "plain" },
-    { photo: "g4", src: "", caption: "Coucher de soleil", scene: "dunes" },
-    { photo: "g5", src: "", caption: "En piste", scene: "plain" },
-    { photo: "g6", src: "", caption: "Le terrain de jeu", scene: "dunes" },
+    { photo: "g1", src: "", caption: "Au cœur du désert", scene: "dunes" },
+    { photo: "g2", src: "", caption: "Bord de lac", scene: "plain" },
+    { photo: "g3", src: "", caption: "Duo sur la dune", scene: "dunes" },
+    { photo: "g4", src: "", caption: "Coucher de soleil sur la plage", scene: "plain" },
+    { photo: "g5", src: "", caption: "Arrivée à l'étape", scene: "city" },
+    { photo: "g6", src: "", caption: "Face à l'immensité", scene: "dunes" },
   ],
 };
 

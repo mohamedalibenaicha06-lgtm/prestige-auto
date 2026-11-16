@@ -188,3 +188,4 @@ h1 em, h2 em {
 }
 .gallery-item > .photo, .gallery-item > .photo-pic, .gallery-item > .art { position: absolute; inset: 0; }
 .raid-hero-bg .photo { object-position: 50% 30%; }
+@media (max-width: 520px) { .gallery-item:last-child { grid-column: span 2; aspect-ratio: 16 / 10; } }
