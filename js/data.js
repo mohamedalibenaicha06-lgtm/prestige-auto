@@ -68,12 +68,17 @@ window.MODELS = [
     id: "maverick-x3-x-rs",
     photo: "xrs",
     photoNote: "Visuel d'ambiance — non contractuel",
+    // --- Showroom (modifiable) ---
+    cutout: "", // photo détourée, fond transparent (PNG/WebP), ex. "media/showroom/x-rs.webp"
+    views: [], // vue 360° : 24 à 36 photos prises en tournant autour du buggy, dans l'ordre
+    price: "", // ex. "32 900 €" ; vide = "Prix sur demande"
+    available: false, // true = véhicule réellement en vente (retire la mention « Exemple »)
     name: "Maverick X3 X rs Turbo RR",
     short: "X rs",
     year: 2027,
     family: "Sport · 2 places",
     tagline: "Le pilotage pur, taillé pour la vitesse et les grands espaces.",
-    color: "#2f3236",
+    color: "#c62828",
     accent: "#ff6b1a",
     seats: 2,
     max: false,
@@ -103,12 +108,17 @@ window.MODELS = [
     id: "maverick-x3-x-rc",
     photo: "xrc",
     photoNote: "Visuel d'ambiance — non contractuel",
+    // --- Showroom (modifiable) ---
+    cutout: "", // photo détourée, fond transparent (PNG/WebP), ex. "media/showroom/x-rs.webp"
+    views: [], // vue 360° : 24 à 36 photos prises en tournant autour du buggy, dans l'ordre
+    price: "", // ex. "32 900 €" ; vide = "Prix sur demande"
+    available: false, // true = véhicule réellement en vente (retire la mention « Exemple »)
     name: "Maverick X3 X rc Turbo RR",
     short: "X rc",
     year: 2027,
     family: "Rock crawling · 2 places",
     tagline: "Conçu pour franchir les rochers : treuil, protections intégrales et pneus Hammer King.",
-    color: "#3b4a3a",
+    color: "#e4e4e4",
     accent: "#ff6b1a",
     seats: 2,
     max: false,
@@ -138,12 +148,17 @@ window.MODELS = [
     id: "maverick-x3-max-x-rs",
     photo: "maxrs",
     photoNote: "Visuel d'ambiance — non contractuel",
+    // --- Showroom (modifiable) ---
+    cutout: "", // photo détourée, fond transparent (PNG/WebP), ex. "media/showroom/x-rs.webp"
+    views: [], // vue 360° : 24 à 36 photos prises en tournant autour du buggy, dans l'ordre
+    price: "", // ex. "32 900 €" ; vide = "Prix sur demande"
+    available: false, // true = véhicule réellement en vente (retire la mention « Exemple »)
     name: "Maverick X3 MAX X rs Turbo RR",
     short: "MAX X rs",
     year: 2027,
     family: "Sport · 4 places",
     tagline: "Les performances du X rs, avec quatre places pour partager l'aventure.",
-    color: "#1c1d20",
+    color: "#1d1f23",
     accent: "#ff6b1a",
     seats: 4,
     max: true,
@@ -172,12 +187,17 @@ window.MODELS = [
     id: "maverick-x3-max-x-rc",
     photo: "maxrc",
     photoNote: "Visuel d'ambiance — non contractuel",
+    // --- Showroom (modifiable) ---
+    cutout: "", // photo détourée, fond transparent (PNG/WebP), ex. "media/showroom/x-rs.webp"
+    views: [], // vue 360° : 24 à 36 photos prises en tournant autour du buggy, dans l'ordre
+    price: "", // ex. "32 900 €" ; vide = "Prix sur demande"
+    available: false, // true = véhicule réellement en vente (retire la mention « Exemple »)
     name: "Maverick X3 MAX X rc Turbo RR",
     short: "MAX X rc",
     year: 2027,
     family: "Rock crawling · 4 places",
     tagline: "L'équipement rock crawling du X rc dans une version quatre places.",
-    color: "#4a3a2c",
+    color: "#b71c1c",
     accent: "#ff6b1a",
     seats: 4,
     max: true,

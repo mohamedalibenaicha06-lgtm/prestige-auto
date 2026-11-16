@@ -19,6 +19,9 @@
     }
   }
 
+  /* ---------- Showroom (Accueil + Achat) ---------- */
+  if ($("showroom")) PA.showroom($("showroom"));
+
   /* ---------- Achat ---------- */
   if ($("models")) {
     $("models").innerHTML = MODELS.map(PA.modelCard).join("");

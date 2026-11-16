@@ -64,7 +64,7 @@
   // Modèles étudiés en reprise (pas d'annonce, pas de prix)
   document.getElementById("sell-models").innerHTML = MODELS.map(
     (m) => `<button type="button" class="sell-model reveal zoom" data-model="${PA.escape(m.name)}">
-      <span class="sell-model-img">${m.photo && PA.photo(m.photo) ? PA.photoHTML(m.photo) : PA.buggySVG(m)}</span>
+      <span class="sell-model-img">${PA.carVisual(m)}</span>
       <b>${PA.escape(m.short)}</b><span>Proposer ce modèle →</span></button>`
   ).join("");
   document.getElementById("sell-models").addEventListener("click", (e) => {

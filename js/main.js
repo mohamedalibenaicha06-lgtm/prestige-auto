@@ -172,6 +172,104 @@
   };
 
   /* ---------- Carte modèle (annonce d'exemple) ---------- */
+  /* ---------- Showroom : buggy seul sur fond anthracite ---------- */
+  // Photo détourée (m.cutout) si fournie, sinon illustration vectorielle.
+  PA.carVisual = function (m, eager) {
+    const src = m.views && m.views.length ? m.views[0] : m.cutout;
+    return src
+      ? `<img class="car-cutout" src="${PA.escape(src)}" alt="${PA.escape(m.name)}" ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async">`
+      : `<div class="car-cutout car-art">${PA.buggySVG(m, { title: "Illustration " + m.name + " (photo détourée à venir)" })}</div>`;
+  };
+
+  // Vue 360° : tourne au doigt / à la souris / au clavier si m.views contient assez de photos.
+  PA.spin360 = function (el, frames) {
+    const ok = !!frames && frames.length >= 8;
+    el.classList.toggle("is-360", ok);
+    el._frames = ok ? frames : null;
+    if (!ok) { el.removeAttribute("tabindex"); return false; }
+    frames.forEach((f) => (new Image().src = f)); // préchargement
+    el.tabIndex = 0;
+    el.setAttribute("aria-label", "Vue 360° : faites glisser ou utilisez les flèches");
+    el._i = 0;
+    if (el._spin) return true;
+    el._spin = true;
+    let x0 = 0, i0 = 0, down = false;
+    const set = (n) => {
+      const f = el._frames; if (!f) return;
+      el._i = ((n % f.length) + f.length) % f.length;
+      el.querySelector("img.car-cutout").src = f[el._i];
+    };
+    el.addEventListener("pointerdown", (e) => { if (!el._frames) return; down = true; x0 = e.clientX; i0 = el._i; el.setPointerCapture(e.pointerId); el.classList.add("grabbing"); });
+    el.addEventListener("pointermove", (e) => { if (down) set(i0 - Math.round((e.clientX - x0) / (el.clientWidth / el._frames.length / 1.5))); });
+    const up = () => { down = false; el.classList.remove("grabbing"); };
+    el.addEventListener("pointerup", up); el.addEventListener("pointercancel", up);
+    el.addEventListener("keydown", (e) => { if (e.key === "ArrowLeft") set(el._i - 1); if (e.key === "ArrowRight") set(el._i + 1); });
+    return true;
+  };
+
+  // Sélecteur de modèles façon showroom (Accueil + Achat)
+  PA.showroom = function (root) {
+    const ms = window.MODELS;
+    root.innerHTML = `
+      <div class="sr-tabs" role="tablist" aria-label="Choisir un modèle">${ms
+        .map((m, i) => `<button type="button" role="tab" class="sr-tab" aria-selected="${!i}" data-i="${i}"><b>${PA.escape(m.short)}</b><span>${m.seats} places</span></button>`)
+        .join("")}</div>
+      <div class="sr-main">
+        <div class="sr-stage" role="tabpanel">
+          <span class="stage-word" aria-hidden="true"></span>
+          <div class="sr-car"></div>
+          <div class="sr-floor" aria-hidden="true"></div>
+          <p class="sr-hint"></p>
+        </div>
+        <div class="sr-info"></div>
+      </div>`;
+    const stage = root.querySelector(".sr-stage"), car = root.querySelector(".sr-car"), info = root.querySelector(".sr-info");
+    let cur = -1;
+    function show(i) {
+      if (i === cur) return;
+      const m = ms[i], dir = i > cur ? 1 : -1;
+      cur = i;
+      root.querySelectorAll(".sr-tab").forEach((t, j) => t.setAttribute("aria-selected", String(j === i)));
+      stage.style.setProperty("--dir", dir);
+      stage.classList.remove("in"); void stage.offsetWidth;
+      stage.querySelector(".stage-word").textContent = m.short;
+      car.innerHTML = PA.carVisual(m, i === 0);
+      const is360 = PA.spin360(stage, m.views);
+      root.querySelector(".sr-hint").textContent = is360 ? "↔ Faites glisser pour tourner autour" : "Vue 360° bientôt disponible";
+      stage.classList.add("in");
+      info.innerHTML = `
+        <p class="car-brand">Can-Am · ${PA.escape(m.family)} · ${m.year}</p>
+        <h3 class="sr-name">${PA.escape(m.name)}</h3>
+        <p class="muted">${PA.escape(m.tagline)}</p>
+        <ul class="sr-specs">
+          <li><b>${m.key.power}</b><span>Puissance</span></li>
+          <li><b>${m.key.travel}</b><span>Débattement</span></li>
+          <li><b>${m.key.clearance}</b><span>Garde au sol</span></li>
+          <li><b>${m.key.weight}</b><span>Poids à sec</span></li>
+        </ul>
+        <p class="sr-status">${m.available ? PA.escape(m.price || "Prix sur demande") : "Exemple — non disponible à la vente"}</p>
+        <div class="card-actions">
+          <a class="btn btn-gold" href="achat.html#${m.id}">Fiche complète <span class="arrow">→</span></a>
+          <a class="btn btn-outline" href="${PA.waLink("Bonjour PRESTIGE AUTO, je souhaite des informations sur le " + m.name + ".")}" target="_blank" rel="noopener">WhatsApp</a>
+        </div>`;
+    }
+    root.querySelector(".sr-tabs").addEventListener("click", (e) => { const t = e.target.closest(".sr-tab"); if (t) show(+t.dataset.i); });
+    root.querySelector(".sr-tabs").addEventListener("keydown", (e) => {
+      if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+      const n = (cur + (e.key === "ArrowRight" ? 1 : -1) + ms.length) % ms.length;
+      show(n); root.querySelectorAll(".sr-tab")[n].focus();
+    });
+    // Glisser horizontalement sur la scène = modèle suivant (sauf en mode 360°)
+    let sx = null;
+    stage.addEventListener("pointerdown", (e) => { if (!stage.classList.contains("is-360")) sx = e.clientX; });
+    stage.addEventListener("pointerup", (e) => {
+      if (sx === null) return;
+      const d = e.clientX - sx; sx = null;
+      if (Math.abs(d) > 50) show((cur + (d < 0 ? 1 : -1) + ms.length) % ms.length);
+    });
+    show(0);
+  };
+
   PA.modelCard = function (m) {
     const info = `Bonjour PRESTIGE AUTO, je souhaite des informations sur le ${m.name}.`;
     return `
@@ -179,8 +277,9 @@
         <div class="car-card-stage">
           <span class="badge">${m.year}</span>
           <span class="badge badge-fuel">${m.seats} places</span>
-          ${m.photo && PA.photo(m.photo) ? PA.photoHTML(m.photo) + (m.photoNote ? `<span class="img-note">${PA.escape(m.photoNote)}</span>` : "") : PA.media(m.photos[0], PA.buggySVG(m), m.name)}
-          <span class="sample-flag">Exemple — non disponible à la vente</span>
+          <span class="stage-word" aria-hidden="true">${PA.escape(m.short)}</span>
+          ${PA.carVisual(m)}
+          ${m.available ? "" : '<span class="sample-flag">Exemple — non disponible à la vente</span>'}
         </div>
         <div class="car-card-body">
           <p class="car-brand">Can-Am · ${PA.escape(m.family)}</p>
@@ -197,6 +296,7 @@
             <table class="spec-table"><tbody>${m.specs.map(([k, v]) => `<tr><th scope="row">${PA.escape(k)}</th><td>${PA.escape(v)}</td></tr>`).join("")}</tbody></table>
             <p class="spec-source">Source : <a href="${m.official}" target="_blank" rel="noopener">fiche officielle Can-Am</a> · <a href="${m.specSheet}" target="_blank" rel="noopener">fiche PDF</a>. Modèle ${m.year}, Canada ; peut varier selon le marché.</p>
           </details>
+          ${m.available ? `<p class="car-price">${PA.escape(m.price || "Prix sur demande")}</p>` : ""}
           <div class="card-actions">
             <a class="btn btn-gold" href="contact.html?sujet=achat&amp;modele=${encodeURIComponent(m.id)}">Demander des informations</a>
             <a class="btn btn-outline btn-icon" href="${PA.waLink(info)}" target="_blank" rel="noopener" aria-label="Demander sur WhatsApp">${waIcon}</a>
