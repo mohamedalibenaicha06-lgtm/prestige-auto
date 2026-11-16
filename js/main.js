@@ -102,18 +102,6 @@
       </div>`;
   }
 
-  /* ---------- Bouton WhatsApp flottant ---------- */
-  if (!document.querySelector(".wa-float")) {
-    const wa = document.createElement("a");
-    wa.className = "wa-float";
-    wa.href = PA.waLink();
-    wa.target = "_blank";
-    wa.rel = "noopener";
-    wa.setAttribute("aria-label", "Nous écrire sur WhatsApp");
-    wa.innerHTML = waIcon + '<span class="wa-float-label">WhatsApp</span>';
-    document.body.appendChild(wa);
-  }
-
   /* ---------- Transitions de page ---------- */
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   requestAnimationFrame(() => document.body.classList.add("is-loaded"));

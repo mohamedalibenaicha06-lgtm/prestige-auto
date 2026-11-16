@@ -269,11 +269,11 @@ html { scrollbar-color: #3a3a40 #0a0a0b; }
 /* =========================================================================
    Refonte « showroom » : en-tête centré, rubriques, photo XRS, prochain raid
    ========================================================================= */
-:root { --header-h: 124px; }
+:root { --header-h: 128px; }
 .site-header, .site-header.scrolled, body:not([data-page="home"]) .site-header { height: auto; background: #090909; border-bottom: 1px solid var(--line); -webkit-backdrop-filter: none; backdrop-filter: none; }
-.header-inner { display: grid; grid-template-columns: 44px 1fr 44px; height: 60px; gap: 8px; }
+.header-inner { display: grid; grid-template-columns: 44px 1fr 44px; height: 68px; gap: 8px; }
 .header-inner .logo { justify-self: center; }
-.logo-img { height: 46px; }
+.logo-img { height: 55px; }
 main { overflow-x: clip; }
 .head-wa { justify-self: end; display: grid; place-items: center; width: 44px; height: 44px; color: #fff; transition: color .2s; }
 .head-wa:hover { color: var(--gold); }
@@ -283,44 +283,50 @@ main { overflow-x: clip; }
 .main-nav ul { flex-direction: column; align-items: center; gap: 20px; }
 .main-nav ul a { font-family: var(--font-display); font-size: 2.2rem; letter-spacing: 0; text-transform: uppercase; }
 .nav-open .main-nav { opacity: 1; visibility: visible; }
-.tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; max-width: 680px; padding-bottom: 10px; }
-.tab { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; height: 54px; background: #111112; border: 1px solid rgba(255,255,255,.12); color: #fff; transform: skewX(-8deg); transition: transform .2s var(--ease), border-color .25s, background .25s; -webkit-tap-highlight-color: transparent; }
+.tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 680px; padding-bottom: 10px; }
+.tab { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; height: 48px; background: #111112; border: 1px solid rgba(255,255,255,.12); color: #fff; transform: skewX(-8deg); transition: transform .2s var(--ease), border-color .2s, background .2s, color .2s; -webkit-tap-highlight-color: transparent; }
 .tab > * { transform: skewX(8deg); }
-.tab svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
-.tab span { font-family: var(--font-display); font-weight: 600; font-size: 1.3rem; line-height: 1; text-transform: uppercase; letter-spacing: .04em; }
-.tab::after { content: ""; position: absolute; left: 10%; right: 10%; bottom: -1px; height: 2px; background: var(--gold); transform: scaleX(0); transition: transform .35s var(--ease); }
-.tab.active { border-color: rgba(229,9,20,.55); }
+.tab svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.tab span { font-family: var(--font-display); font-weight: 600; font-size: 1.22rem; line-height: 1; text-transform: uppercase; letter-spacing: .04em; }
+.tab::after { content: ""; position: absolute; left: 22%; right: 22%; bottom: 5px; height: 2px; background: var(--gold); transform: scaleX(0); transition: transform .2s var(--ease); }
+.tab.active { border-color: rgba(255,255,255,.2); }
 .tab.active::after { transform: scaleX(1); }
 .tab:active { transform: skewX(-8deg) scale(.97); }
 @media (hover: hover) { .tab:hover { border-color: rgba(255,255,255,.3); background: #161617; } .tab:hover::after { transform: scaleX(1); } }
 @media (min-width: 861px) {
-  :root { --header-h: 128px; }
-  .header-inner { height: 68px; }
-  .logo-img { height: 48px; }
-  .tabs { gap: 14px; }
-  .tab { flex-direction: row; gap: 10px; height: 48px; }
+  :root { --header-h: 132px; }
+  .header-inner { height: 76px; }
+  .logo-img { height: 58px; }
+  .tabs { gap: 16px; }
+  .tab { flex-direction: row; gap: 10px; height: 44px; }
+  .tab::after { bottom: 4px; left: 30%; right: 30%; }
 }
 
 /* Accueil : photo du buggy + prochain raid */
 .home-hero { padding-top: var(--header-h); background: #090909; }
 .xrs-photo { margin: 0; }
-.xrs-photo img { display: block; width: 100%; max-width: min(1180px, calc((100svh - var(--header-h)) * 1.25)); height: auto; margin: 0 auto; -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 5%, #000 96%, transparent 100%); mask-image: linear-gradient(180deg, transparent 0, #000 5%, #000 96%, transparent 100%); }
-@media (min-width: 1181px) {
-  .xrs-photo img { -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 5%, #000 96%, transparent 100%), linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%); -webkit-mask-composite: source-in; mask-image: linear-gradient(180deg, transparent 0, #000 5%, #000 96%, transparent 100%), linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%); mask-composite: intersect; }
-}
-.next-raid { text-align: center; padding-top: 6px; padding-bottom: clamp(40px, 7vw, 72px); }
+.xrs-photo { position: relative; }
+.xrs-photo img { display: block; width: 100%; max-width: min(1180px, calc((100svh - var(--header-h)) * 1.25)); height: auto; margin: 0 auto;
+  --fade-v: linear-gradient(180deg, transparent 0, rgba(0,0,0,.6) 3%, #000 9%, #000 86%, rgba(0,0,0,.55) 95%, transparent 100%);
+  --fade-h: linear-gradient(90deg, transparent 0, #000 4%, #000 96%, transparent 100%);
+  -webkit-mask-image: var(--fade-v), var(--fade-h); -webkit-mask-composite: source-in; mask-image: var(--fade-v), var(--fade-h); mask-composite: intersect; }
+@media (min-width: 1181px) { .xrs-photo img { --fade-h: linear-gradient(90deg, transparent 0, #000 10%, #000 90%, transparent 100%); } }
+.next-raid { text-align: center; padding-top: 2px; padding-bottom: clamp(40px, 7vw, 72px); }
 .nr-title { font-size: clamp(2.6rem, 11vw, 4.4rem); line-height: .9; transform-origin: center bottom; }
-.nr-badge { display: inline-block; margin: 8px 0 14px; padding: .08em .55em .02em; background: var(--gold); color: #fff; font-family: var(--font-display); font-weight: 600; font-size: clamp(1.6rem, 7.6vw, 3rem); line-height: 1.05; white-space: nowrap; text-transform: uppercase; transform: skewX(-10deg); }
+.nr-badge { display: inline-block; margin: 2px 0 12px; padding: .04em .5em 0; background: var(--gold); color: #fff; font-family: var(--font-display); font-weight: 600; font-size: clamp(1.55rem, 7.2vw, 2.8rem); line-height: 1.08; white-space: nowrap; text-transform: uppercase; transform: skewX(-10deg); }
 .nr-dates { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 0; font-family: var(--font-tech); font-weight: 700; font-size: clamp(1.05rem, 4.4vw, 1.3rem); text-transform: uppercase; }
 .nr-dates::before, .nr-dates::after { content: ""; width: clamp(24px, 9vw, 70px); height: 1px; background: var(--gold); }
 .nr-dates svg { width: 22px; height: 22px; fill: none; stroke: #fff; stroke-width: 1.6; }
-.countdown-raid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; max-width: 520px; margin: 16px auto 20px; }
-.countdown-raid div { min-width: 0; padding: 10px 4px 8px; background: #090909; border: 1px solid rgba(229,9,20,.75); border-radius: 10px; -webkit-backdrop-filter: none; backdrop-filter: none; }
-.countdown-raid b { font-size: clamp(2.3rem, 10vw, 3.2rem); color: #fff; }
+.countdown-raid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; max-width: 480px; margin: 14px auto 18px; }
+.countdown-raid div { min-width: 0; padding: 8px 4px 7px; background: #090909; border: 1px solid rgba(229,9,20,.5); border-radius: 8px; -webkit-backdrop-filter: none; backdrop-filter: none; }
+.countdown-raid b { font-size: clamp(2.1rem, 9.2vw, 2.9rem); color: #fff; }
 .countdown-raid span { font-size: .62rem; letter-spacing: .1em; color: rgba(255,255,255,.75); }
 .countdown-raid .countdown-done { grid-column: 1 / -1; margin: 0; padding: 12px; border: 1px solid rgba(229,9,20,.75); border-radius: 10px; font-family: var(--font-display); font-weight: 600; font-size: 2.2rem; line-height: 1; text-transform: uppercase; color: #fff; }
 .raid-hero .countdown-raid { margin: 18px 0 26px; }
-.nr-cta { min-width: min(100%, 300px); justify-content: center; }
+.nr-cta { min-width: min(100%, 290px); justify-content: center; padding-block: 12px; box-shadow: none; transition: transform .2s var(--ease), background .2s; }
+.nr-cta::after { display: none; }
+.nr-cta:hover { background: #c80812; box-shadow: none; }
+.nr-cta:active { transform: skewX(var(--skew)) scale(.97); }
 .nr-note { margin: 12px 0 0; font-size: .8rem; color: var(--muted); }
 
 /* Fiches véhicules : année, kilométrage, prix */
@@ -331,3 +337,18 @@ main { overflow-x: clip; }
 .car-card .card-actions { flex-wrap: wrap; margin-bottom: 14px; }
 .car-card .card-actions .btn-gold { flex: 1 1 100%; }
 .car-card .card-actions .btn-outline:not(.btn-icon) { flex: 1; justify-content: center; }
+
+/* Apparitions à l'ouverture (accueil, une seule fois, 300–600 ms) */
+@keyframes fadeIn { from { opacity: 0; } }
+@keyframes riseIn { from { opacity: 0; transform: translateY(10px); } }
+@keyframes badgeIn { from { opacity: 0; transform: skewX(-10deg) translateY(10px); } }
+@keyframes tabIn { from { opacity: 0; transform: skewX(-8deg) translateY(8px); } }
+@media (prefers-reduced-motion: no-preference) {
+  [data-page="home"] .xrs-photo img { animation: fadeIn .6s ease-out both; }
+  [data-page="home"] .tab { animation: tabIn .4s var(--ease) backwards; }
+  [data-page="home"] .tab:nth-child(2) { animation-delay: .06s; }
+  [data-page="home"] .tab:nth-child(3) { animation-delay: .12s; }
+  [data-page="home"] .nr-title { animation: fadeIn .5s .15s ease-out both; }
+  [data-page="home"] .nr-badge { animation: badgeIn .45s .22s var(--ease) both; }
+  [data-page="home"] .nr-dates { animation: riseIn .45s .3s var(--ease) both; }
+}
