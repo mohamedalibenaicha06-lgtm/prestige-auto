@@ -38,12 +38,13 @@
           <ul>
             ${links
               .map(
-                ([href, label, key]) =>
-                  `<li><a href="${href}" class="${key === page ? "active" : ""}" ${key === page ? 'aria-current="page"' : ""}>${label}</a></li>`
+                ([href, label, key], i) =>
+                  `<li style="--i:${i}"><a href="${href}" class="${key === page ? "active" : ""}" ${key === page ? 'aria-current="page"' : ""}>${label}</a></li>`
               )
               .join("")}
           </ul>
         </nav>
+        <div class="nav-backdrop" id="nav-backdrop" aria-hidden="true"></div>
       </div>
       <nav class="tabs container" aria-label="Rubriques">
         ${tabs.map(([href, label, key]) => `<a class="tab${key === page ? " active" : ""}" href="${href}"${key === page ? ' aria-current="page"' : ""}>${ico[key]}<span>${label}</span></a>`).join("")}
@@ -58,6 +59,7 @@
     };
     burger.addEventListener("click", () => toggle(!document.body.classList.contains("nav-open")));
     nav.addEventListener("click", (e) => { if (e.target.closest("a")) toggle(false); });
+    document.getElementById("nav-backdrop").addEventListener("click", () => toggle(false));
     document.addEventListener("keydown", (e) => { if (e.key === "Escape") toggle(false); });
 
     const onScroll = () => header.classList.toggle("scrolled", window.scrollY > 30);
@@ -116,23 +118,30 @@
     if (!href || href.startsWith("#") || a.target === "_blank" || e.metaKey || e.ctrlKey || e.shiftKey) return;
     if (/^(https?:|mailto:|tel:)/.test(href)) return;
     e.preventDefault();
-    document.body.classList.add("is-leaving");
-    setTimeout(() => (window.location.href = href), 320);
+    // Réaction du bouton (flash + ligne rouge), puis sortie de page courte
+    const hit = a.closest(".tab, .btn, .main-nav a, .tile, .rubric");
+    if (hit) { hit.classList.remove("hit"); void hit.offsetWidth; hit.classList.add("hit"); }
+    setTimeout(() => document.body.classList.add("is-leaving"), hit ? 140 : 0);
+    setTimeout(() => (window.location.href = href), hit ? 400 : 300);
   });
+  window.addEventListener("pageshow", () => document.querySelectorAll(".hit").forEach((h) => h.classList.remove("hit")));
 
   /* ---------- Apparition au défilement ---------- */
   PA.observeReveal = function (root = document) {
-    const els = root.querySelectorAll(".reveal:not(.in)");
+    const els = root.querySelectorAll(".reveal:not(.in), .stripe:not(.in)");
     if (!("IntersectionObserver" in window) || reduced) {
       els.forEach((el) => el.classList.add("in"));
       return;
     }
     const io = new IntersectionObserver(
       (entries) => {
+        let n = 0; // cascade : les éléments qui entrent ensemble arrivent l'un après l'autre
         entries.forEach((en) => {
           if (en.isIntersecting) {
-            en.target.classList.add("in");
-            io.unobserve(en.target);
+            const el = en.target, d = n++ * 90;
+            if (d) { el.style.transitionDelay = d + "ms"; setTimeout(() => (el.style.transitionDelay = ""), d + 700); }
+            el.classList.add("in");
+            io.unobserve(el);
           }
         });
       },
@@ -323,6 +332,14 @@
     if (PA.photo(el.dataset.photo)) el.classList.add("is-photo");
   });
 
+  /* ---------- Séquence « Prochain raid » : jouée une fois, à l'arrivée dans la section ---------- */
+  document.querySelectorAll(".next-raid").forEach((el) => {
+    const play = () => setTimeout(() => el.classList.add("is-on"), Math.max(0, 560 - performance.now()));
+    if (reduced || !("IntersectionObserver" in window)) return el.classList.add("is-on");
+    const io = new IntersectionObserver((en) => { if (en[0].isIntersecting) { play(); io.disconnect(); } }, { threshold: 0.2 });
+    io.observe(el);
+  });
+
   /* ---------- Fiche véhicule : « Voir le véhicule » ouvre la fiche technique ---------- */
   document.addEventListener("click", (e) => {
     const b = e.target.closest(".js-open-specs");
@@ -353,14 +370,19 @@
       const parts = [[labels[0], 864e5], [labels[1], 36e5], [labels[2], 6e4], [labels[3], 1e3]].map(([l, ms]) => {
         const v = Math.floor(d / ms); d -= v * ms; return [l, v];
       });
-      el.innerHTML = parts.map(([l, v]) => `<div><b>${String(v).padStart(2, "0")}</b><span>${l}</span></div>`).join("");
+      const bs = el.querySelectorAll("b");
+      if (bs.length !== 4) { el.innerHTML = parts.map(([l, v]) => `<div><b>${String(v).padStart(2, "0")}</b><span>${l}</span></div>`).join(""); return; }
+      parts.forEach(([, v], i) => { // mise à jour sur place : pas de reconstruction, pas de secousse
+        const t = String(v).padStart(2, "0");
+        if (bs[i].textContent !== t) { bs[i].textContent = t; bs[i].classList.remove("tick"); void bs[i].offsetWidth; bs[i].classList.add("tick"); }
+      });
     };
     tick();
     timer = setInterval(tick, 1000);
   });
 
   /* ---------- Profondeur légère sur les grandes images ---------- */
-  const para = [...document.querySelectorAll(".hero-bg, .raid-hero-bg")];
+  const para = [...document.querySelectorAll(".hero-bg, .raid-hero-bg" + (window.matchMedia("(min-width: 861px)").matches ? ", .xrs-photo" : ""))];
   if (para.length && !reduced) {
     let ticking = false;
     window.addEventListener("scroll", () => {
@@ -368,7 +390,7 @@
       ticking = true;
       requestAnimationFrame(() => {
         const y = window.scrollY;
-        if (y < window.innerHeight * 1.2) para.forEach((el) => (el.style.translate = `0 ${y * 0.25}px`));
+        if (y < window.innerHeight * 1.2) para.forEach((el) => (el.style.translate = `0 ${y * (el.dataset.para || 0.25)}px`));
         ticking = false;
       });
     }, { passive: true });

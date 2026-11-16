@@ -313,7 +313,7 @@ main { overflow-x: clip; }
 @media (min-width: 1181px) { .xrs-photo img { --fade-h: linear-gradient(90deg, transparent 0, #000 10%, #000 90%, transparent 100%); } }
 .next-raid { text-align: center; padding-top: 2px; padding-bottom: clamp(40px, 7vw, 72px); }
 .nr-title { font-size: clamp(2.6rem, 11vw, 4.4rem); line-height: .9; transform-origin: center bottom; }
-.nr-badge { display: inline-block; margin: 2px 0 12px; padding: .04em .5em 0; background: var(--gold); color: #fff; font-family: var(--font-display); font-weight: 600; font-size: clamp(1.55rem, 7.2vw, 2.8rem); line-height: 1.08; white-space: nowrap; text-transform: uppercase; transform: skewX(-10deg); }
+.nr-badge { position: relative; z-index: 0; display: inline-block; margin: 2px 0 12px; padding: .04em .5em 0; color: #fff; font-family: var(--font-display); font-weight: 600; font-size: clamp(1.55rem, 7.2vw, 2.8rem); line-height: 1.08; white-space: nowrap; text-transform: uppercase; transform: skewX(-10deg); }
 .nr-dates { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 0; font-family: var(--font-tech); font-weight: 700; font-size: clamp(1.05rem, 4.4vw, 1.3rem); text-transform: uppercase; }
 .nr-dates::before, .nr-dates::after { content: ""; width: clamp(24px, 9vw, 70px); height: 1px; background: var(--gold); }
 .nr-dates svg { width: 22px; height: 22px; fill: none; stroke: #fff; stroke-width: 1.6; }
@@ -338,17 +338,106 @@ main { overflow-x: clip; }
 .car-card .card-actions .btn-gold { flex: 1 1 100%; }
 .car-card .card-actions .btn-outline:not(.btn-icon) { flex: 1; justify-content: center; }
 
-/* Apparitions à l'ouverture (accueil, une seule fois, 300–600 ms) */
-@keyframes fadeIn { from { opacity: 0; } }
-@keyframes riseIn { from { opacity: 0; transform: translateY(10px); } }
-@keyframes badgeIn { from { opacity: 0; transform: skewX(-10deg) translateY(10px); } }
-@keyframes tabIn { from { opacity: 0; transform: skewX(-8deg) translateY(8px); } }
+.nr-badge::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--gold); transform-origin: left center; }
+.nr-w { display: inline-block; }
+.next-raid { position: relative; z-index: 1; }
+.countdown-raid div { position: relative; overflow: hidden; }
+.tab, .btn { overflow: hidden; }
+
+/* =========================================================================
+   Motion design racing — freinage, cascades, lignes rouges (transform/opacity)
+   Contenu visible sans JavaScript : les états cachés exigent html.fx.
+   ========================================================================= */
+:root { --brake: cubic-bezier(.12, .86, .18, 1); --snap: cubic-bezier(.05, .9, .1, 1); }
+
+/* Réaction au clic : flash rouge + ligne qui traverse */
+.tab::before { content: ""; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 35%, rgba(229,9,20,.55) 50%, transparent 65%); transform: translateX(-110%); pointer-events: none; }
+.tab.hit { background: rgba(229,9,20,.22); border-color: var(--gold); transition-duration: .12s; }
+.tab.hit::before { transform: translateX(110%); transition: transform .38s var(--brake); }
+.tab.hit::after { transform: scaleX(1); }
+.btn-gold::after { background: linear-gradient(110deg, transparent 30%, rgba(255,150,150,.5) 50%, transparent 70%); }
+.btn-outline::after { content: ""; position: absolute; inset: 0; background: linear-gradient(110deg, transparent 30%, rgba(229,9,20,.4) 50%, transparent 70%); transform: translateX(-120%); pointer-events: none; }
+.btn:active { transform: skewX(var(--skew)) scale(.97); transition-duration: .1s; }
+.btn.hit::after { transform: translateX(120%); transition: transform .4s var(--brake); }
+.btn:active .arrow, .btn.hit .arrow { transform: translateX(6px); transition-duration: .15s; }
+.btn.hit { transform: skewX(var(--skew)) scale(.97); }
+.main-nav a.hit { color: var(--gold); }
+
+/* Menu hamburger : panneau latéral + voile */
+.main-nav { inset: 0 auto 0 0; width: min(86vw, 380px); align-items: flex-start; padding: 0 0 0 40px; background: #090909; border-right: 1px solid var(--line); opacity: 1; visibility: hidden; transform: translateX(-102%); transition: transform .26s cubic-bezier(.5, 0, .9, .4), visibility 0s .26s; }
+.nav-open .main-nav { visibility: visible; transform: none; transition: transform .42s var(--brake), visibility 0s; }
+.nav-backdrop { position: fixed; inset: 0; z-index: 54; background: rgba(0,0,0,.6); opacity: 0; visibility: hidden; transition: opacity .26s, visibility 0s .26s; }
+.nav-open .nav-backdrop { opacity: 1; visibility: visible; transition: opacity .35s, visibility 0s; }
+.main-nav ul { align-items: flex-start; }
+.main-nav ul li:nth-child(n) { opacity: 0; transform: translateX(-34px); transition: opacity .16s, transform .2s; transition-delay: 0s; }
+.nav-open .main-nav ul li:nth-child(n) { opacity: 1; transform: none; transition: opacity .3s var(--brake), transform .38s var(--brake); transition-delay: calc(.12s + var(--i, 0) * .07s); }
+.nav-open .main-nav ul a::after { animation: navLine .5s var(--brake) both; animation-delay: calc(.18s + var(--i, 0) * .07s); }
+.nav-open .main-nav ul a.active::after { animation-name: navLineStay; }
+@keyframes navLine { 0% { transform: scaleX(0); transform-origin: left; } 55% { transform: scaleX(1); transform-origin: left; } 56% { transform-origin: right; } 100% { transform: scaleX(0); transform-origin: right; } }
+@keyframes navLineStay { from { transform: scaleX(0); transform-origin: left; } to { transform: scaleX(1); transform-origin: left; } }
+
+/* Séparateurs rouges qui s'étendent */
+.fx .stripe { transform: scaleX(0); transform-origin: left; transition: transform .7s var(--brake); }
+.fx .stripe.in { transform: none; }
+
+/* Apparitions au défilement : plus nerveuses, boutons après le contenu */
+.reveal { transition: opacity .5s var(--brake), transform .55s var(--brake); }
+.fx .reveal.in .btn { animation: btnIn .35s var(--brake) .28s backwards; }
+@keyframes btnIn { from { opacity: 0; transform: skewX(var(--skew)) translateY(10px); } }
+
+@keyframes logoIn { from { opacity: 0; transform: scale(.84); } }
+@keyframes tabIn { from { opacity: 0; transform: skewX(-8deg) translateX(-64px); } 60% { opacity: 1; } }
+@keyframes tabLine { 0% { transform: scaleX(0); } 45% { transform: scaleX(1); } 100% { transform: scaleX(0); } }
+@keyframes tabLineStay { from { transform: scaleX(0); } }
+@keyframes photoIn { from { opacity: 0; transform: scale(1.04); } }
+@keyframes titleIn { from { opacity: 0; transform: translateX(-70px) skewX(var(--skew)); } to { opacity: 1; transform: skewX(var(--skew)); } }
+@keyframes wordL { from { opacity: 0; transform: translate(-42px, -8px); } }
+@keyframes wordU { from { opacity: 0; transform: translateY(26px); } }
+@keyframes wordR { from { opacity: 0; transform: translate(42px, -8px); } }
+@keyframes bandIn { from { transform: scaleX(0); } }
+@keyframes riseIn { from { opacity: 0; transform: translateY(14px); } }
+@keyframes cdLine { 0% { transform: scaleX(0); } 50% { transform: scaleX(1); } 100% { transform: scaleX(0); transform-origin: right; } }
+@keyframes digitIn { from { opacity: .35; transform: translateY(-5px); } }
+
 @media (prefers-reduced-motion: no-preference) {
-  [data-page="home"] .xrs-photo img { animation: fadeIn .6s ease-out both; }
-  [data-page="home"] .tab { animation: tabIn .4s var(--ease) backwards; }
-  [data-page="home"] .tab:nth-child(2) { animation-delay: .06s; }
-  [data-page="home"] .tab:nth-child(3) { animation-delay: .12s; }
-  [data-page="home"] .nr-title { animation: fadeIn .5s .15s ease-out both; }
-  [data-page="home"] .nr-badge { animation: badgeIn .45s .22s var(--ease) both; }
-  [data-page="home"] .nr-dates { animation: riseIn .45s .3s var(--ease) both; }
+  /* Entrée de l'accueil : logo → ACHAT → VENTE → RAID → buggy → titres */
+  .fx [data-page="home"] .logo-img { animation: logoIn .38s var(--brake) .05s backwards; }
+  .fx [data-page="home"] .tab { animation: tabIn .42s var(--brake) backwards; }
+  .fx [data-page="home"] .tab:nth-child(1) { animation-delay: .2s; }
+  .fx [data-page="home"] .tab:nth-child(2) { animation-delay: .33s; }
+  .fx [data-page="home"] .tab:nth-child(3) { animation-delay: .46s; }
+  .fx [data-page="home"] .tab::after { animation: tabLine .42s var(--brake) backwards; }
+  .fx [data-page="home"] .tab:nth-child(1)::after { animation-delay: .44s; }
+  .fx [data-page="home"] .tab:nth-child(2)::after { animation-delay: .57s; }
+  .fx [data-page="home"] .tab:nth-child(3)::after { animation-delay: .7s; }
+  .fx [data-page="home"] .tab.active::after { animation-name: tabLineStay; }
+  .fx [data-page="home"] .xrs-photo img { animation: photoIn .9s cubic-bezier(.2, .7, .2, 1) .45s backwards; }
+
+  /* Prochain raid : séquence d'impact (déclenchée par .play) */
+  .fx .next-raid:not(.is-on) :is(.nr-title, .nr-w, .nr-dates, .countdown-raid > *, .nr-cta, .nr-note) { opacity: 0; }
+  .fx .next-raid:not(.is-on) .nr-badge::before { transform: scaleX(0); }
+  .next-raid.is-on .nr-title { animation: titleIn .4s var(--brake) both; }
+  .next-raid.is-on .nr-badge::before { animation: bandIn .36s var(--brake) .12s backwards; }
+  .next-raid.is-on .nr-w { animation: wordL .32s var(--snap) .24s backwards; }
+  .next-raid.is-on .nr-w:nth-child(2) { animation-name: wordU; animation-delay: .39s; }
+  .next-raid.is-on .nr-w:nth-child(3) { animation-name: wordR; animation-delay: .54s; }
+  .next-raid.is-on .nr-dates { animation: riseIn .34s var(--brake) .72s backwards; }
+  .next-raid.is-on .countdown-raid > * { animation: riseIn .32s var(--brake) .82s backwards; }
+  .next-raid.is-on .countdown-raid > :nth-child(2) { animation-delay: .92s; }
+  .next-raid.is-on .countdown-raid > :nth-child(3) { animation-delay: 1.02s; }
+  .next-raid.is-on .countdown-raid > :nth-child(4) { animation-delay: 1.12s; }
+  .countdown-raid div::after { content: ""; position: absolute; left: 14%; right: 14%; bottom: 0; height: 2px; background: var(--gold); transform: scaleX(0); transform-origin: left; }
+  .next-raid.is-on .countdown-raid div::after { animation: cdLine .6s var(--brake) 1.05s; }
+  .next-raid.is-on .countdown-raid div:nth-child(2)::after { animation-delay: 1.15s; }
+  .next-raid.is-on .countdown-raid div:nth-child(3)::after { animation-delay: 1.25s; }
+  .next-raid.is-on .countdown-raid div:nth-child(4)::after { animation-delay: 1.35s; }
+  .next-raid.is-on .nr-cta { animation: btnIn .34s var(--brake) 1.2s backwards; }
+  .next-raid.is-on .nr-note { animation: riseIn .3s ease-out 1.3s backwards; }
+  .countdown b.tick { animation: digitIn .22s ease-out; }
+
+  /* Arrivée sur une page : le titre entre en freinant */
+  .fx .page-hero h1 { animation: titleIn .45s var(--brake) .08s both; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .main-nav, .main-nav ul li:nth-child(n), .nav-backdrop { transition: none !important; }
 }
