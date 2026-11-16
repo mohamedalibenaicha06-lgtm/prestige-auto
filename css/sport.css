@@ -264,4 +264,10 @@ html { scrollbar-color: #3a3a40 #0a0a0b; }
 .logo-img { display: block; height: 46px; width: auto; }
 .logo-img-lg { height: 84px; }
 .hero-logo { display: block; width: clamp(210px, 34vw, 400px); height: auto; margin: 0 0 6px -2%; }
+.hero-tag { margin: 0 0 14px; }
+.hero-tag-in { position: relative; display: inline-block; padding-bottom: 10px; font-family: var(--font-display); font-weight: 700; font-size: clamp(2.4rem, 7.2vw, 4.6rem); line-height: .85; letter-spacing: .04em; text-transform: uppercase; transform: skewX(-12deg); text-shadow: 0 2px 0 rgba(0,0,0,.55); white-space: nowrap; }
+.hero-tag .t-blue { color: #3b7bff; }
+.hero-tag .t-white { color: #fff; }
+.hero-tag .t-red { color: #ef2b33; }
+.hero-tag-in::after { content: ""; position: absolute; left: 0; bottom: 0; width: 100%; height: 4px; background: linear-gradient(90deg, #3b7bff 0 33.3%, #fff 33.3% 66.6%, #ef2b33 66.6%); }
 @media (max-width: 860px) { .logo-img { height: 38px; } }
