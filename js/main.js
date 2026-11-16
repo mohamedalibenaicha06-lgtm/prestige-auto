@@ -7,7 +7,7 @@
     ["index.html", "Accueil", "home"],
     ["achat.html", "Achat", "achat"],
     ["vente.html", "Vente", "vente"],
-    ["raids.html", "Raids & Randonnées", "raids"],
+    ["raids.html", "Raid", "raids"],
     ["videos.html", "Vidéos", "videos"],
     ["contact.html", "Contact", "contact"],
   ];
@@ -19,12 +19,22 @@
   /* ---------- En-tête ---------- */
   const header = document.getElementById("site-header");
   if (header) {
+    const ico = {
+      achat: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.2 10.2a1.5 1.5 0 0 0 1.5 1.2h8.6a1.5 1.5 0 0 0 1.4-1.1L21 8H6.2"/><circle cx="9.5" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/></svg>',
+      vente: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8Z"/><circle cx="7.5" cy="7.5" r="1.4"/></svg>',
+      raids: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V4"/><path d="M5 4h14v9H5"/><path d="M8.5 4v9M12 4v9M15.5 4v9M5 8.5h14" stroke-width="1.2"/></svg>',
+    };
+    const tabs = [["achat.html", "Achat", "achat"], ["vente.html", "Vente", "vente"], ["raids.html", "Raid", "raids"]];
     header.innerHTML = `
       <div class="header-inner container">
+        <button class="burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="main-nav">
+          <span></span><span></span><span></span>
+        </button>
         <a class="logo" href="index.html" aria-label="BEST OF PINS — accueil">
           <img class="logo-img" src="media/logo.webp" alt="BEST OF PINS" width="936" height="501">
         </a>
-        <nav class="main-nav" id="main-nav" aria-label="Navigation principale">
+        <a class="head-wa js-wa" href="#" target="_blank" rel="noopener" aria-label="Nous écrire sur WhatsApp">${waIcon}</a>
+        <nav class="main-nav" id="main-nav" aria-label="Menu complet">
           <ul>
             ${links
               .map(
@@ -33,12 +43,11 @@
               )
               .join("")}
           </ul>
-          <a class="btn btn-wa btn-sm nav-cta js-wa" href="#" target="_blank" rel="noopener">WhatsApp</a>
         </nav>
-        <button class="burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="main-nav">
-          <span></span><span></span><span></span>
-        </button>
-      </div>`;
+      </div>
+      <nav class="tabs container" aria-label="Rubriques">
+        ${tabs.map(([href, label, key]) => `<a class="tab${key === page ? " active" : ""}" href="${href}"${key === page ? ' aria-current="page"' : ""}>${ico[key]}<span>${label}</span></a>`).join("")}
+      </nav>`;
 
     const burger = document.getElementById("burger");
     const nav = document.getElementById("main-nav");
@@ -248,7 +257,7 @@
         </ul>
         <p class="sr-status">${m.available ? PA.escape(m.price || "Prix sur demande") : "Exemple — non disponible à la vente"}</p>
         <div class="card-actions">
-          <a class="btn btn-gold" href="achat.html#${m.id}">Fiche complète <span class="arrow">→</span></a>
+          <a class="btn btn-gold" href="achat.html#${m.id}">Voir le véhicule <span class="arrow">›</span></a>
           <a class="btn btn-outline" href="${PA.waLink("Bonjour BEST OF PINS, je souhaite des informations sur le " + m.name + ".")}" target="_blank" rel="noopener">WhatsApp</a>
         </div>`;
     }
@@ -290,16 +299,21 @@
             <li><b>${m.key.clearance}</b><span>Garde au sol</span></li>
             <li><b>${m.key.weight}</b><span>Poids à sec</span></li>
           </ul>
+          <dl class="car-facts">
+            <div><dt>Année</dt><dd>${m.year}</dd></div>
+            <div><dt>Kilométrage</dt><dd>${PA.escape(m.mileage || "—")}</dd></div>
+            <div><dt>Prix</dt><dd>${m.available ? PA.escape(m.price || "Sur demande") : "—"}</dd></div>
+          </dl>
+          <div class="card-actions">
+            <button type="button" class="btn btn-gold js-open-specs">Voir le véhicule</button>
+            <a class="btn btn-outline" href="contact.html?sujet=achat&amp;modele=${encodeURIComponent(m.id)}">Nous contacter</a>
+            <a class="btn btn-outline btn-icon" href="${PA.waLink(info)}" target="_blank" rel="noopener" aria-label="Demander sur WhatsApp">${waIcon}</a>
+          </div>
           <details class="specs">
             <summary>Fiche technique complète</summary>
             <table class="spec-table"><tbody>${m.specs.map(([k, v]) => `<tr><th scope="row">${PA.escape(k)}</th><td>${PA.escape(v)}</td></tr>`).join("")}</tbody></table>
             <p class="spec-source">Source : <a href="${m.official}" target="_blank" rel="noopener">fiche officielle Can-Am</a> · <a href="${m.specSheet}" target="_blank" rel="noopener">fiche PDF</a>. Modèle ${m.year}, Canada ; peut varier selon le marché.</p>
           </details>
-          ${m.available ? `<p class="car-price">${PA.escape(m.price || "Prix sur demande")}</p>` : ""}
-          <div class="card-actions">
-            <a class="btn btn-gold" href="contact.html?sujet=achat&amp;modele=${encodeURIComponent(m.id)}">Demander des informations</a>
-            <a class="btn btn-outline btn-icon" href="${PA.waLink(info)}" target="_blank" rel="noopener" aria-label="Demander sur WhatsApp">${waIcon}</a>
-          </div>
         </div>
       </article>`;
   };
@@ -321,14 +335,33 @@
     if (PA.photo(el.dataset.photo)) el.classList.add("is-photo");
   });
 
+  /* ---------- Fiche véhicule : « Voir le véhicule » ouvre la fiche technique ---------- */
+  document.addEventListener("click", (e) => {
+    const b = e.target.closest(".js-open-specs");
+    if (!b) return;
+    const d = b.closest(".car-card").querySelector("details.specs");
+    d.open = true;
+    d.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "nearest" });
+  });
+
   /* ---------- Compte à rebours ---------- */
+  // data-countdown="raid" = dates de RAIDS.main (data.js) ; sinon une date ISO.
   document.querySelectorAll("[data-countdown]").forEach((el) => {
-    const target = new Date(el.dataset.countdown).getTime();
+    const raid = (window.RAIDS || {}).main || {};
+    const isRaid = el.dataset.countdown === "raid";
+    const target = new Date(isRaid ? raid.start : el.dataset.countdown).getTime();
+    const end = isRaid && raid.end ? new Date(raid.end).getTime() : 0;
     const labels = el.dataset.long ? ["Jours", "Heures", "Minutes", "Secondes"] : ["Jours", "Heures", "Min", "Sec"];
     let timer;
     const tick = () => {
-      let d = Math.max(0, target - Date.now());
-      if (!d && el.dataset.done) { el.innerHTML = `<p class="countdown-done">${PA.escape(el.dataset.done)}</p>`; clearInterval(timer); return; }
+      const now = Date.now();
+      let d = Math.max(0, target - now);
+      if (!d && isRaid) {
+        const done = end && now >= end;
+        el.innerHTML = `<p class="countdown-done">${done ? "Raid terminé" : "Raid en cours"}</p>`;
+        if (done) clearInterval(timer);
+        return;
+      }
       const parts = [[labels[0], 864e5], [labels[1], 36e5], [labels[2], 6e4], [labels[3], 1e3]].map(([l, ms]) => {
         const v = Math.floor(d / ms); d -= v * ms; return [l, v];
       });
@@ -336,12 +369,6 @@
     };
     tick();
     timer = setInterval(tick, 1000);
-  });
-
-  /* ---------- Voitures de l'intro : images réelles si renseignées (HERO_CARS) ---------- */
-  document.querySelectorAll(".tow-car[data-car]").forEach((el) => {
-    const src = (window.HERO_CARS || [])[+el.dataset.car];
-    if (src) el.innerHTML = `<img src="${PA.escape(src)}" alt="" decoding="async">`;
   });
 
   /* ---------- Profondeur légère sur les grandes images ---------- */

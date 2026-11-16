@@ -72,6 +72,7 @@ window.MODELS = [
     cutout: "", // photo détourée, fond transparent (PNG/WebP), ex. "media/showroom/x-rs.webp"
     views: [], // vue 360° : 24 à 36 photos prises en tournant autour du buggy, dans l'ordre
     price: "", // ex. "32 900 €" ; vide = "Prix sur demande"
+    mileage: "", // kilométrage réel du véhicule en vente, ex. "3 500 km" ; vide = « — »
     available: false, // true = véhicule réellement en vente (retire la mention « Exemple »)
     name: "Maverick X3 X rs Turbo RR",
     short: "X rs",
@@ -79,7 +80,7 @@ window.MODELS = [
     family: "Sport · 2 places",
     tagline: "Le pilotage pur, taillé pour la vitesse et les grands espaces.",
     color: "#c62828",
-    accent: "#ff6b1a",
+    accent: "#e50914",
     seats: 2,
     max: false,
     photos: [], // ex. ["media/x-rs-1.jpg", "media/x-rs-2.jpg"]
@@ -112,6 +113,7 @@ window.MODELS = [
     cutout: "", // photo détourée, fond transparent (PNG/WebP), ex. "media/showroom/x-rs.webp"
     views: [], // vue 360° : 24 à 36 photos prises en tournant autour du buggy, dans l'ordre
     price: "", // ex. "32 900 €" ; vide = "Prix sur demande"
+    mileage: "", // kilométrage réel du véhicule en vente, ex. "3 500 km" ; vide = « — »
     available: false, // true = véhicule réellement en vente (retire la mention « Exemple »)
     name: "Maverick X3 X rc Turbo RR",
     short: "X rc",
@@ -119,7 +121,7 @@ window.MODELS = [
     family: "Rock crawling · 2 places",
     tagline: "Conçu pour franchir les rochers : treuil, protections intégrales et pneus Hammer King.",
     color: "#e4e4e4",
-    accent: "#ff6b1a",
+    accent: "#e50914",
     seats: 2,
     max: false,
     photos: [],
@@ -152,6 +154,7 @@ window.MODELS = [
     cutout: "", // photo détourée, fond transparent (PNG/WebP), ex. "media/showroom/x-rs.webp"
     views: [], // vue 360° : 24 à 36 photos prises en tournant autour du buggy, dans l'ordre
     price: "", // ex. "32 900 €" ; vide = "Prix sur demande"
+    mileage: "", // kilométrage réel du véhicule en vente, ex. "3 500 km" ; vide = « — »
     available: false, // true = véhicule réellement en vente (retire la mention « Exemple »)
     name: "Maverick X3 MAX X rs Turbo RR",
     short: "MAX X rs",
@@ -159,7 +162,7 @@ window.MODELS = [
     family: "Sport · 4 places",
     tagline: "Les performances du X rs, avec quatre places pour partager l'aventure.",
     color: "#1d1f23",
-    accent: "#ff6b1a",
+    accent: "#e50914",
     seats: 4,
     max: true,
     photos: [],
@@ -191,6 +194,7 @@ window.MODELS = [
     cutout: "", // photo détourée, fond transparent (PNG/WebP), ex. "media/showroom/x-rs.webp"
     views: [], // vue 360° : 24 à 36 photos prises en tournant autour du buggy, dans l'ordre
     price: "", // ex. "32 900 €" ; vide = "Prix sur demande"
+    mileage: "", // kilométrage réel du véhicule en vente, ex. "3 500 km" ; vide = « — »
     available: false, // true = véhicule réellement en vente (retire la mention « Exemple »)
     name: "Maverick X3 MAX X rc Turbo RR",
     short: "MAX X rc",
@@ -198,7 +202,7 @@ window.MODELS = [
     family: "Rock crawling · 4 places",
     tagline: "L'équipement rock crawling du X rc dans une version quatre places.",
     color: "#b71c1c",
-    accent: "#ff6b1a",
+    accent: "#e50914",
     seats: 4,
     max: true,
     photos: [],
@@ -226,18 +230,15 @@ window.MODELS = [
 ];
 
 /* Raids — informations communiquées, à confirmer. Aucun programme n'est inventé. */
-/* Voitures qui tractent les titres de l'accueil (dans l'ordre : SOLO LA PISTA, PLEIN GAZ, SUR LE DÉSERT).
-   Vide = petite voiture de course SVG provisoire. Pour mettre un Can-Am X3 : image PNG/WebP détourée,
-   fond transparent, buggy vu de profil TOURNÉ VERS LA DROITE (le site le retourne tout seul si besoin),
-   ex. "media/showroom/x3-xrs-profil.webp". */
-window.HERO_CARS = ["", "", ""];
-
 window.RAIDS = {
   main: {
     name: "Royal Raid Maroc",
     dates: "Du 8 au 12 décembre 2026",
     status: "Dates à confirmer",
     place: "Marrakech, Maroc",
+    // Compte à rebours (heure du Maroc, UTC+1). Heure de départ provisoire : minuit.
+    start: "2026-12-08T00:00:00+01:00", // départ → affiche « RAID EN COURS »
+    end: "2026-12-13T00:00:00+01:00", // fin du 12 décembre → affiche « RAID TERMINÉ »
   },
   // Galerie : renseignez "src" avec vos photos (ex. "media/raid-1.jpg").
   gallery: [

@@ -34,7 +34,7 @@
   function buggy(m, opts = {}) {
     const id = "b" + ++uid;
     const base = m.color || "#2f3236";
-    const accent = m.accent || "#ff6b1a";
+    const accent = m.accent || "#e50914";
     const long = !!m.max;
     const R = long ? 150 : 200, F = long ? 690 : 640; // roues arrière / avant
     const sx = (F - R) / 440; // étirement du châssis
