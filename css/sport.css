@@ -265,7 +265,7 @@ html { scrollbar-color: #3a3a40 #0a0a0b; }
 .logo-img-lg { height: 84px; }
 .hero-logo { display: block; width: clamp(210px, 34vw, 400px); height: auto; margin: 0 0 6px -2%; }
 .hero-tag { margin: 0 0 10px; }
-.hero-tag-in { position: relative; display: inline-block; padding: 0 .08em 12px 0; font-family: "Racing Sans One", var(--font-display); font-weight: 400; font-size: clamp(2.7rem, 10.5vw, 6.2rem); line-height: .9; letter-spacing: .01em; text-transform: uppercase; transform: skewX(-10deg); text-shadow: 0 3px 0 rgba(0,0,0,.6), 0 10px 24px rgba(0,0,0,.45); white-space: nowrap; }
+.hero-tag-in { position: relative; display: inline-block; padding: 0 .08em 12px 0; font-family: "Racing Sans One", var(--font-display); font-weight: 400; font-size: inherit; line-height: .9; letter-spacing: .01em; text-transform: uppercase; transform: skewX(-10deg); text-shadow: 0 3px 0 rgba(0,0,0,.6), 0 10px 24px rgba(0,0,0,.45); white-space: nowrap; }
 .hero-tag .t-blue { color: #3b7bff; }
 .hero-tag .t-white { color: #fff; }
 .hero-tag .t-red { color: #ef2b33; }
@@ -273,21 +273,60 @@ html { scrollbar-color: #3a3a40 #0a0a0b; }
 @media (max-width: 860px) { .logo-img { height: 38px; } }
 
 @font-face { font-family: "Racing Sans One"; src: url("../assets/fonts/racing-sans-one.ttf") format("truetype"); font-display: swap; } /* SIL OFL, voir assets/fonts */
-/* Accueil : arrivée racing hors champ (≈0,7 s), « BIM BAM BOUM » */
-.hero-copy .hero-tag { will-change: transform; animation: zoomFromLeft .56s both; }
+/* ---------- Accueil : voitures qui tractent les titres (≈0,78 s) ---------- */
+.hero-copy { max-width: none; width: 100%; justify-self: stretch; }
+.hero-copy .hero-tag { max-width: none; margin: 0 0 6px; text-align: center; font-size: clamp(2.95rem, 11.3vw, 6.75rem); line-height: .9; }
 .hero-copy .title-anim .line { overflow: visible; }
-.hero-copy .title-anim .line > span { transform: none; will-change: transform; animation: zoomFromRight .56s .07s both; }
-.hero-copy .title-anim .line:nth-child(2) > span { animation-name: zoomFromLeft; animation-delay: .14s; }
-@keyframes zoomFromLeft {
-  0% { transform: translate3d(-110vw, 0, 0) skewX(-18deg); filter: blur(7px); animation-timing-function: cubic-bezier(.08, .82, .22, 1); }
-  72% { transform: translate3d(1.2%, 0, 0) skewX(7deg); filter: blur(.6px); animation-timing-function: cubic-bezier(.3, .6, .4, 1); }
+.hero-copy .title-anim .line > .tow { transform: none; animation: towL .44s var(--d, 0s) both; }
+.hero-copy .title-anim .line > .tow-r { animation-name: towR; }
+.tow { position: relative; display: inline-block; will-change: transform; animation: towL .44s var(--d, 0s) both; }
+.tow-r { animation-name: towR; }
+.hero-copy .title-anim .line:nth-child(1) > .tow { --d: .08s; }
+.hero-copy .title-anim .line:nth-child(2) > .tow { --d: .16s; }
+.tow-rig { position: absolute; top: 50%; left: 100%; display: flex; align-items: center; height: .5em; translate: 0 -50%; pointer-events: none; animation: rigOutL .62s var(--d, 0s) both; }
+.tow-r .tow-rig { left: auto; right: 100%; flex-direction: row-reverse; animation-name: rigOutR; }
+.tow-cable { display: block; width: .45em; height: 2px; background: repeating-linear-gradient(90deg, rgba(255,255,255,.85) 0 6px, transparent 6px 9px); transform-origin: left center; animation: cableIn .62s var(--d, 0s) both; }
+.tow-r .tow-cable { transform-origin: right center; }
+.tow-car { display: block; height: 100%; aspect-ratio: 160 / 48; color: #f4f4f4; --car-accent: var(--gold); }
+.tow-car svg, .tow-car img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.tow-r .tow-car { transform: scaleX(-1); color: var(--gold); --car-accent: #0b0b0c; }
+.title-anim .line:nth-child(2) .tow-car { color: #e3262f; --car-accent: #f4f4f4; }
+@keyframes towL {
+  0% { transform: translate3d(calc(-100vw - 100% - 3em), 0, 0); filter: blur(6px); animation-timing-function: cubic-bezier(.1, .8, .2, 1); }
+  80% { transform: translate3d(.06em, 0, 0); filter: blur(.4px); animation-timing-function: ease-out; }
   100% { transform: none; filter: none; }
 }
-@keyframes zoomFromRight {
-  0% { transform: translate3d(110vw, 0, 0) skewX(18deg); filter: blur(7px); animation-timing-function: cubic-bezier(.08, .82, .22, 1); }
-  72% { transform: translate3d(-1.2%, 0, 0) skewX(-7deg); filter: blur(.6px); animation-timing-function: cubic-bezier(.3, .6, .4, 1); }
+@keyframes towR {
+  0% { transform: translate3d(calc(100vw + 100% + 3em), 0, 0); filter: blur(6px); animation-timing-function: cubic-bezier(.1, .8, .2, 1); }
+  80% { transform: translate3d(-.06em, 0, 0); filter: blur(.4px); animation-timing-function: ease-out; }
   100% { transform: none; filter: none; }
 }
+/* la voiture s'arrête un instant avec le texte, lâche le câble, puis file et disparaît */
+@keyframes rigOutL { 0%, 72% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateX(.8em); visibility: hidden; } }
+@keyframes rigOutR { 0%, 72% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateX(-.8em); visibility: hidden; } }
+@keyframes cableIn { 0%, 66% { transform: none; opacity: 1; } 84%, 100% { transform: scaleX(0); opacity: 0; } }
+
+/* Grandes rubriques + compte à rebours */
+.hero-rubrics { display: grid; gap: 10px; margin-top: 22px; max-width: 880px; }
+.rubric { position: relative; display: grid; place-items: center; min-height: clamp(92px, 21vw, 128px); background: rgba(12,12,14,.62); border: 1px solid rgba(255,255,255,.14); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); overflow: hidden; transition: background .25s var(--ease), border-color .25s var(--ease), transform .2s var(--ease); -webkit-tap-highlight-color: transparent; }
+.rubric::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: var(--gold); transform: scaleX(0); transform-origin: left; transition: transform .3s var(--ease); }
+.rubric b { font-family: "Racing Sans One", var(--font-display); font-weight: 400; font-size: clamp(2.6rem, 11vw, 4.4rem); line-height: 1; text-transform: uppercase; letter-spacing: .02em; transform: skewX(-8deg); color: #fff; }
+.rubric:active { transform: scale(.985); background: rgba(255,107,26,.2); }
+.rubric:active::after, .rubric:focus-visible::after { transform: scaleX(1); }
+@media (hover: hover) { .rubric:hover { border-color: rgba(255,107,26,.55); background: rgba(20,20,22,.72); } .rubric:hover::after { transform: scaleX(1); } }
+.rubric-raid { margin-top: -10px; padding: 16px 16px 18px; background: rgba(12,12,14,.62); border: 1px solid rgba(255,255,255,.14); border-top: 0; text-align: center; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.hero-copy .rubric-raid p { max-width: none; margin: 0; }
+.hero-copy .rubric-raid .rr-title { font-family: var(--font-display); font-weight: 600; font-size: 1.7rem; line-height: 1; text-transform: uppercase; color: #fff; }
+.hero-copy .rubric-raid .rr-sub { margin-top: 4px; font-family: var(--font-tech); font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); }
+.countdown-hero { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 12px 0 16px; }
+.countdown-hero div { min-width: 0; padding: 10px 4px 6px; }
+.countdown-hero b { font-size: clamp(2.3rem, 9vw, 3.4rem); color: #fff; }
+.countdown-hero span { display: block; font-size: .6rem; letter-spacing: .08em; color: var(--gold); }
+.hero-copy .countdown-done { grid-column: 1 / -1; font-family: "Racing Sans One", var(--font-display); font-size: clamp(1.8rem, 7vw, 2.6rem); color: var(--gold); text-transform: uppercase; }
+.rubric-raid .btn { width: 100%; justify-content: center; }
+@media (min-width: 861px) { .rubric-raid .btn { width: auto; } }
+
 @media (prefers-reduced-motion: reduce) {
-  .hero-copy .hero-tag, .hero-copy .title-anim .line > span { animation: none; transform: none; filter: none; }
+  .tow { animation: none; }
+  .tow-rig { display: none; }
 }

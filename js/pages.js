@@ -21,6 +21,7 @@
 
   /* ---------- Showroom (Accueil + Achat) ---------- */
   if ($("showroom")) PA.showroom($("showroom"));
+  if ($("hero-raid-wa")) $("hero-raid-wa").href = PA.waLink("Bonjour BEST OF PINS, je souhaite réserver ma place pour le Royal Raid Maroc du 8 au 12 décembre 2026.");
 
   /* ---------- Achat ---------- */
   if ($("models")) {

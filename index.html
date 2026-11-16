@@ -17,6 +17,16 @@
   <noscript><style>body{opacity:1}.reveal,.rise{opacity:1;transform:none}</style></noscript>
 </head>
 <body data-page="home">
+  <!-- Voiture de course provisoire (SVG). Remplacement par photos : HERO_CARS dans js/data.js -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="race-car" viewBox="0 0 160 48">
+    <path d="M4 12h14l2 3h-4l1 13H9L6 15H4z" fill="#0b0b0c"/>
+    <path d="M8 36 9 25q2-6 14-7l36-2q10-8 30-9l14 1q9 1 15 8l26 5q10 2 11 9v6z" fill="currentColor"/>
+    <path d="M62 17q10-7 27-7l12 1q6 1 10 6z" fill="#0b0b0c"/>
+    <path d="M10 27h146v3H10z" fill="var(--car-accent, #ff6b1a)"/>
+    <path d="M140 36h18v2h-18z" fill="#0b0b0c"/>
+    <circle cx="36" cy="36" r="10" fill="#0b0b0c"/><circle cx="36" cy="36" r="4.5" fill="#9a9a9a"/>
+    <circle cx="128" cy="36" r="10" fill="#0b0b0c"/><circle cx="128" cy="36" r="4.5" fill="#9a9a9a"/>
+  </symbol></svg>
   <header id="site-header" class="site-header"></header>
 
   <main>
@@ -26,17 +36,19 @@
       <div class="speedlines" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
       <div class="container hero-grid">
         <div class="hero-copy">
-          <p class="hero-tag" lang="it"><span class="hero-tag-in"><span class="t-blue">Solo</span> <span class="t-white">la</span> <span class="t-red">Pista</span></span></p>
-          <h1 class="title-anim"><span class="line"><span>Plein gaz</span></span><span class="line"><span><em>sur le désert</em></span></span></h1>
+          <p class="hero-tag" lang="it"><span class="tow tow-l"><span class="hero-tag-in"><span class="t-blue">Solo</span> <span class="t-white">la</span> <span class="t-red">Pista</span></span><span class="tow-rig" aria-hidden="true"><i class="tow-cable"></i><span class="tow-car" data-car="0"><svg viewBox="0 0 160 48"><use href="#race-car"/></svg></span></span></span></p>
+          <h1 class="title-anim"><span class="line"><span class="tow tow-r">Plein gaz<span class="tow-rig" aria-hidden="true"><i class="tow-cable"></i><span class="tow-car" data-car="1"><svg viewBox="0 0 160 48"><use href="#race-car"/></svg></span></span></span></span><span class="line"><span class="tow tow-l"><em>sur le désert</em><span class="tow-rig" aria-hidden="true"><i class="tow-cable"></i><span class="tow-car" data-car="2"><svg viewBox="0 0 160 48"><use href="#race-car"/></svg></span></span></span></span></h1>
           <p class="rise d2">Spécialiste des buggys Can-Am : achat, vente et préparation. Raids et randonnées dans les plus beaux paysages du Maroc.</p>
-          <div class="hero-actions rise d3">
-            <a class="btn btn-gold" href="achat.html">Voir les buggys <span class="arrow">→</span></a>
-            <a class="btn btn-outline" href="raids.html">Royal Raid Maroc</a>
-          </div>
-          <nav class="hero-quick rise d4" aria-label="Accès rapide">
-            <a href="achat.html"><b>Achat</b><span>Maverick X3 →</span></a>
-            <a href="vente.html"><b>Vente</b><span>Proposer mon buggy →</span></a>
-            <a href="raids.html"><b>Raids</b><span>8–12 déc. 2026 →</span></a>
+          <nav class="hero-rubrics rise d3" aria-label="Accès rapide">
+            <a class="rubric" href="achat.html"><b>Achat</b></a>
+            <a class="rubric" href="vente.html"><b>Vente</b></a>
+            <a class="rubric" href="raids.html"><b>Raid</b></a>
+            <div class="rubric-raid">
+              <p class="rr-title">Royal Raid Maroc</p>
+              <p class="rr-sub">Départ dans :</p>
+              <div class="countdown countdown-hero" data-countdown="2026-12-08T00:00:00+01:00" data-long="1" data-done="Le raid a commencé" aria-label="Compte à rebours avant le départ du Royal Raid Maroc"></div>
+              <a class="btn btn-gold js-wa" data-msg="1" id="hero-raid-wa" href="raids.html" target="_blank" rel="noopener">Réserver ma place <span class="arrow">→</span></a>
+            </div>
           </nav>
         </div>
         <div class="hero-car" id="hero-car"></div>

@@ -324,15 +324,24 @@
   /* ---------- Compte à rebours ---------- */
   document.querySelectorAll("[data-countdown]").forEach((el) => {
     const target = new Date(el.dataset.countdown).getTime();
+    const labels = el.dataset.long ? ["Jours", "Heures", "Minutes", "Secondes"] : ["Jours", "Heures", "Min", "Sec"];
+    let timer;
     const tick = () => {
       let d = Math.max(0, target - Date.now());
-      const parts = [["Jours", 864e5], ["Heures", 36e5], ["Min", 6e4], ["Sec", 1e3]].map(([l, ms]) => {
+      if (!d && el.dataset.done) { el.innerHTML = `<p class="countdown-done">${PA.escape(el.dataset.done)}</p>`; clearInterval(timer); return; }
+      const parts = [[labels[0], 864e5], [labels[1], 36e5], [labels[2], 6e4], [labels[3], 1e3]].map(([l, ms]) => {
         const v = Math.floor(d / ms); d -= v * ms; return [l, v];
       });
       el.innerHTML = parts.map(([l, v]) => `<div><b>${String(v).padStart(2, "0")}</b><span>${l}</span></div>`).join("");
     };
     tick();
-    setInterval(tick, 1000);
+    timer = setInterval(tick, 1000);
+  });
+
+  /* ---------- Voitures de l'intro : images réelles si renseignées (HERO_CARS) ---------- */
+  document.querySelectorAll(".tow-car[data-car]").forEach((el) => {
+    const src = (window.HERO_CARS || [])[+el.dataset.car];
+    if (src) el.innerHTML = `<img src="${PA.escape(src)}" alt="" decoding="async">`;
   });
 
   /* ---------- Profondeur légère sur les grandes images ---------- */

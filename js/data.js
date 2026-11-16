@@ -226,6 +226,12 @@ window.MODELS = [
 ];
 
 /* Raids — informations communiquées, à confirmer. Aucun programme n'est inventé. */
+/* Voitures qui tractent les titres de l'accueil (dans l'ordre : SOLO LA PISTA, PLEIN GAZ, SUR LE DÉSERT).
+   Vide = petite voiture de course SVG provisoire. Pour mettre un Can-Am X3 : image PNG/WebP détourée,
+   fond transparent, buggy vu de profil TOURNÉ VERS LA DROITE (le site le retourne tout seul si besoin),
+   ex. "media/showroom/x3-xrs-profil.webp". */
+window.HERO_CARS = ["", "", ""];
+
 window.RAIDS = {
   main: {
     name: "Royal Raid Maroc",
