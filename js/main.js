@@ -57,6 +57,14 @@
     window.addEventListener("scroll", onScroll, { passive: true });
   }
 
+  function creditsHTML() {
+    const list = Object.values(window.PHOTOS || {});
+    if (!list.length) return "";
+    return `<div class="container"><details class="credits"><summary>Crédits photos</summary><ul>${list
+      .map((p) => `<li>${PA.escape(p.title)} — ${PA.escape(p.author)}, <a href="${PA.escape(p.licenseUrl)}" target="_blank" rel="noopener">${PA.escape(p.license)}</a>, via <a href="${PA.escape(p.source)}" target="_blank" rel="noopener">Wikimedia Commons</a>${p.edited ? " (recadrée et compressée)" : ""}</li>`)
+      .join("")}</ul></details></div>`;
+  }
+
   /* ---------- Pied de page ---------- */
   const footer = document.getElementById("site-footer");
   if (footer) {
@@ -80,6 +88,7 @@
           </ul>
         </div>
       </div>
+      ${creditsHTML()}
       <div class="container footer-bottom">
         <p>© ${new Date().getFullYear()} PRESTIGE AUTO. Can-Am, Maverick et Rotax sont des marques de BRP ; site indépendant, non affilié à BRP. Annonces présentées à titre d'exemple.</p>
       </div>`;
@@ -166,11 +175,11 @@
   PA.modelCard = function (m) {
     const info = `Bonjour PRESTIGE AUTO, je souhaite des informations sur le ${m.name}.`;
     return `
-      <article class="car-card reveal" id="${m.id}">
+      <article class="car-card reveal zoom" id="${m.id}">
         <div class="car-card-stage">
           <span class="badge">${m.year}</span>
           <span class="badge badge-fuel">${m.seats} places</span>
-          ${PA.media(m.photos[0], PA.buggySVG(m), m.name)}
+          ${m.photo && PA.photo(m.photo) ? PA.photoHTML(m.photo) + (m.photoNote ? `<span class="img-note">${PA.escape(m.photoNote)}</span>` : "") : PA.media(m.photos[0], PA.buggySVG(m), m.name)}
           <span class="sample-flag">Exemple — non disponible à la vente</span>
         </div>
         <div class="car-card-body">
@@ -196,10 +205,48 @@
       </article>`;
   };
 
-  /* ---------- Fonds illustrés des bandeaux ---------- */
-  document.querySelectorAll("[data-scene]").forEach((el) => {
-    if (!el.innerHTML.trim()) el.innerHTML = PA.sceneSVG(el.dataset.scene);
+  /* ---------- Photos sous licence libre (voir PHOTOS dans data.js) ---------- */
+  PA.photo = (key) => (window.PHOTOS || {})[key] || null;
+  PA.photoHTML = function (key, fallback) {
+    const ph = PA.photo(key);
+    return ph ? PA.media(ph.src, "", ph.alt) : fallback;
+  };
+
+  /* ---------- Fonds : photo si disponible, sinon illustration ---------- */
+  document.querySelectorAll("[data-scene], [data-photo]").forEach((el) => {
+    if (el.innerHTML.trim()) return;
+    el.innerHTML = PA.photoHTML(el.dataset.photo, el.dataset.scene ? PA.sceneSVG(el.dataset.scene) : "");
+    if (PA.photo(el.dataset.photo)) el.classList.add("is-photo");
   });
+
+  /* ---------- Compte à rebours ---------- */
+  document.querySelectorAll("[data-countdown]").forEach((el) => {
+    const target = new Date(el.dataset.countdown).getTime();
+    const tick = () => {
+      let d = Math.max(0, target - Date.now());
+      const parts = [["Jours", 864e5], ["Heures", 36e5], ["Min", 6e4], ["Sec", 1e3]].map(([l, ms]) => {
+        const v = Math.floor(d / ms); d -= v * ms; return [l, v];
+      });
+      el.innerHTML = parts.map(([l, v]) => `<div><b>${String(v).padStart(2, "0")}</b><span>${l}</span></div>`).join("");
+    };
+    tick();
+    setInterval(tick, 1000);
+  });
+
+  /* ---------- Profondeur légère sur les grandes images ---------- */
+  const para = [...document.querySelectorAll(".hero-bg, .raid-hero-bg")];
+  if (para.length && !reduced) {
+    let ticking = false;
+    window.addEventListener("scroll", () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        if (y < window.innerHeight * 1.2) para.forEach((el) => (el.style.translate = `0 ${y * 0.25}px`));
+        ticking = false;
+      });
+    }, { passive: true });
+  }
 
   document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".js-wa").forEach((a) => { if (!a.dataset.msg) a.href = PA.waLink(); });

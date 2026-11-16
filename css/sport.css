@@ -1,0 +1,173 @@
+/* =========================================================================
+   PRESTIGE AUTO — Couche « sport / rallye »
+   Chargée après style.css : typographies, titres inclinés, lignes de vitesse,
+   coupes en biais entre sections, effets de survol. Animations limitées à
+   transform/opacity (fluides sur mobile) et désactivées si « réduire les
+   animations » est actif.
+   ========================================================================= */
+:root {
+  --font-display: "Teko", "Arial Narrow", sans-serif;
+  --font-body: "Rajdhani", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-tech: "Oxanium", "Rajdhani", system-ui, sans-serif;
+  --skew: -8deg;
+  --cut: 4vw;
+}
+body { font-size: 17.5px; font-weight: 500; letter-spacing: .01em; }
+p { line-height: 1.55; }
+
+/* ---------- Titres ---------- */
+h1, h2, h3 { font-weight: 600; line-height: .9; letter-spacing: .01em; }
+h1, h2 { transform: skewX(var(--skew)); transform-origin: left bottom; }
+h1 { font-size: clamp(3.4rem, 9vw, 7.5rem); }
+h2 { font-size: clamp(2.6rem, 6vw, 4.6rem); }
+h3 { font-size: 1.9rem; }
+h1 em, h2 em {
+  font-style: normal; color: transparent;
+  background: linear-gradient(100deg, #ffb26b 0%, #ff6b1a 45%, #e8480a 100%);
+  -webkit-background-clip: text; background-clip: text;
+}
+.eyebrow, .btn, .badge, .chip span, .car-brand, .tbc, .sample-flag, .main-nav ul a, .logo-text, .tile-num, .video-cat, .key-list span, .raid-facts small, .next-badge, .field label {
+  font-family: var(--font-tech);
+}
+.eyebrow { font-size: .78rem; letter-spacing: .28em; }
+.eyebrow::before { height: 3px; width: 28px; transform: skewX(var(--skew)); }
+.logo-mark { font-family: var(--font-display); font-style: normal; font-weight: 600; font-size: 1.6rem; border-radius: 6px; transform: skewX(var(--skew)); }
+.logo-text { letter-spacing: .2em; }
+
+/* Titre animé : chaque ligne glisse depuis un masque */
+.title-anim .line { display: block; overflow: hidden; padding-right: .1em; }
+.title-anim .line > span { display: inline-block; transform: translateY(105%); animation: lineUp .9s var(--ease) forwards; }
+.title-anim .line:nth-child(2) > span { animation-delay: .12s; }
+.title-anim .line:nth-child(3) > span { animation-delay: .24s; }
+@keyframes lineUp { to { transform: none; } }
+
+/* ---------- Boutons : parallélogrammes ---------- */
+.btn {
+  border-radius: 4px; transform: skewX(var(--skew)); text-transform: uppercase; letter-spacing: .08em; font-weight: 700; font-size: .86rem;
+  padding: 15px 30px; transition: transform .3s var(--ease), background .3s, color .3s, border-color .3s, box-shadow .3s;
+}
+.btn:hover { transform: skewX(var(--skew)) translateY(-3px); }
+.btn-gold:hover { box-shadow: 0 16px 34px -12px rgba(255,107,26,.85); }
+.btn .arrow { display: inline-block; transition: transform .3s var(--ease); }
+.btn:hover .arrow { transform: translateX(5px); }
+.btn-outline { border-width: 2px; }
+.btn-icon { transform: skewX(var(--skew)); }
+
+/* ---------- Coupes en biais entre sections ---------- */
+.cut-top { clip-path: polygon(0 var(--cut), 100% 0, 100% 100%, 0 100%); margin-top: calc(var(--cut) * -1); padding-top: calc(clamp(72px, 10vw, 130px) + var(--cut)); }
+.cut-bottom { clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--cut)), 0 100%); }
+.stripe { height: 6px; background: repeating-linear-gradient(-60deg, var(--gold) 0 18px, transparent 18px 30px); opacity: .9; }
+
+/* ---------- Lignes de vitesse ---------- */
+.speedlines { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; mix-blend-mode: screen; }
+.speedlines i {
+  position: absolute; left: -40%; height: 2px; width: 35%; border-radius: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255,160,90,.75), transparent);
+  animation: speed 2.6s linear infinite; will-change: transform;
+}
+.speedlines i:nth-child(1) { top: 22%; animation-delay: .2s; }
+.speedlines i:nth-child(2) { top: 41%; animation-delay: 1.1s; width: 25%; }
+.speedlines i:nth-child(3) { top: 63%; animation-delay: .6s; }
+.speedlines i:nth-child(4) { top: 78%; animation-delay: 1.8s; width: 45%; }
+.speedlines i:nth-child(5) { top: 33%; animation-delay: 2.3s; width: 20%; }
+@keyframes speed { from { transform: translateX(0); } to { transform: translateX(420%); } }
+
+/* ---------- Hero ---------- */
+.hero.has-photo .hero-bg { animation: heroZoom 16s ease-out both; }
+.hero.has-photo .hero-bg .photo { object-position: var(--focus, 60% 50%); }
+.hero.has-photo .hero-shade {
+  background:
+    linear-gradient(100deg, rgba(10,10,11,.92) 0%, rgba(10,10,11,.65) 38%, rgba(10,10,11,.1) 70%),
+    linear-gradient(0deg, var(--black) 0%, transparent 35%);
+}
+.hero.has-photo .hero-grid { grid-template-columns: 1fr; grid-template-rows: none; min-height: 0; }
+.hero-quick { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 34px; max-width: 760px; }
+.hero-quick a {
+  position: relative; display: flex; flex-direction: column; gap: 2px; padding: 14px 16px; border-left: 3px solid var(--gold);
+  background: rgba(10,10,11,.55); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  transition: background .3s, transform .3s var(--ease);
+}
+.hero-quick a:hover { background: rgba(255,107,26,.22); transform: translateY(-3px); }
+.hero-quick b { font-family: var(--font-display); font-size: 1.7rem; font-weight: 600; line-height: 1; text-transform: uppercase; }
+.hero-quick span { font-size: .85rem; color: rgba(255,255,255,.7); }
+.photo-credit { position: absolute; right: 12px; bottom: 10px; z-index: 3; font-size: .7rem; color: rgba(255,255,255,.6); }
+.photo-credit a { text-decoration: underline; }
+
+/* ---------- Cartes véhicules ---------- */
+.car-card { border-radius: 6px; }
+.car-card-stage .photo { transition: transform .8s var(--ease); }
+.car-card:hover .photo { transform: scale(1.07); }
+.car-card::before {
+  content: ""; position: absolute; z-index: 2; top: 0; left: 0; width: 100%; height: 4px; background: var(--gold-grad);
+  transform: scaleX(0); transform-origin: left; transition: transform .5s var(--ease);
+}
+.car-card { position: relative; }
+.car-card:hover::before { transform: scaleX(1); }
+.car-model { font-size: 2.3rem; }
+.img-note { position: absolute; right: 10px; top: 52px; z-index: 2; font-size: .68rem; background: rgba(0,0,0,.65); padding: 3px 8px; border-radius: 3px; color: rgba(255,255,255,.8); }
+
+.tile { border-radius: 6px; position: relative; overflow: hidden; }
+.tile::after { content: ""; position: absolute; right: -30px; bottom: -30px; width: 120px; height: 120px; background: repeating-linear-gradient(-60deg, rgba(255,107,26,.18) 0 10px, transparent 10px 20px); transition: transform .5s var(--ease); }
+.tile:hover::after { transform: translate(-14px, -14px); }
+.tile h3 { font-size: 2.4rem; }
+
+/* Photos des tuiles accueil */
+.tile.has-img { padding: 0; }
+.tile.has-img .tile-img { aspect-ratio: 16 / 9; overflow: hidden; }
+.tile.has-img .tile-img .photo { transition: transform .8s var(--ease); }
+.tile.has-img:hover .tile-img .photo { transform: scale(1.08); }
+.tile.has-img .tile-txt { padding: 20px 22px 24px; display: flex; flex-direction: column; gap: 4px; flex: 1; }
+
+/* ---------- Apparitions au défilement (variantes) ---------- */
+.reveal.from-left { transform: translateX(-50px); }
+.reveal.from-right { transform: translateX(50px); }
+.reveal.zoom { transform: scale(.94); }
+.reveal.in { transform: none; }
+
+/* ---------- Royal Raid ---------- */
+.raid-hero { position: relative; min-height: 88svh; display: flex; align-items: flex-end; overflow: hidden; padding: calc(var(--header-h) + 60px) 0 70px; }
+.raid-hero-bg { position: absolute; inset: 0; }
+.raid-hero-bg .photo, .raid-hero-bg .art { width: 100%; height: 100%; object-fit: cover; }
+.raid-hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, var(--black) 2%, rgba(10,10,11,.55) 45%, rgba(10,10,11,.25)); }
+.raid-hero .container { position: relative; z-index: 2; }
+.raid-hero h1 { font-size: clamp(3.8rem, 12vw, 9.5rem); }
+.countdown { display: flex; gap: 10px; margin: 18px 0 26px; flex-wrap: wrap; }
+.countdown div { min-width: 82px; padding: 10px 14px 6px; background: rgba(10,10,11,.6); border-top: 3px solid var(--gold); text-align: center; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.countdown b { display: block; font-family: var(--font-display); font-size: 3rem; font-weight: 600; line-height: .9; font-variant-numeric: tabular-nums; }
+.countdown span { font-family: var(--font-tech); font-size: .68rem; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.7); }
+.raid-meta { display: flex; gap: 10px 22px; flex-wrap: wrap; align-items: center; font-family: var(--font-tech); font-weight: 600; font-size: 1.05rem; }
+.raid-meta .sep { width: 6px; height: 6px; background: var(--gold); transform: rotate(45deg); }
+
+/* ---------- Crédits photos ---------- */
+.credits { margin-top: 18px; font-size: .78rem; color: var(--muted); }
+.credits summary { cursor: pointer; font-family: var(--font-tech); }
+.credits ul { margin: 10px 0 0; padding-left: 18px; display: grid; gap: 6px; }
+.credits a { text-decoration: underline; }
+
+@media (max-width: 760px) {
+  :root { --skew: -6deg; }
+  h1 { font-size: clamp(3rem, 13vw, 4.4rem); }
+  .hero h1 { font-size: clamp(3rem, 14vw, 4.6rem) !important; }
+  .hero-quick { grid-template-columns: 1fr; gap: 8px; margin-top: 22px; }
+  .hero-quick a { flex-direction: row; align-items: baseline; justify-content: space-between; padding: 10px 14px; }
+  .hero-quick b { font-size: 1.45rem; }
+  .countdown div { min-width: 0; flex: 1; padding: 8px 6px 4px; }
+  .countdown b { font-size: 2.3rem; }
+  .speedlines i:nth-child(n+4) { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .speedlines { display: none; }
+  .title-anim .line > span { transform: none; }
+}
+
+/* ---------- Vente : modèles étudiés ---------- */
+.sell-models { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.sell-model { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding: 0 0 16px; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); color: var(--white); text-align: left; cursor: pointer; overflow: hidden; transition: transform .35s var(--ease), border-color .3s, opacity .9s var(--ease); }
+.sell-model:hover { transform: translateY(-4px); border-color: var(--gold); }
+.sell-model-img { display: block; width: 100%; aspect-ratio: 16 / 10; overflow: hidden; margin-bottom: 12px; background: radial-gradient(ellipse at 50% 70%, #2a2a2f, #121214 75%); }
+.sell-model-img .photo { transition: transform .7s var(--ease); }
+.sell-model:hover .sell-model-img .photo { transform: scale(1.08); }
+.sell-model b { font-family: var(--font-display); font-size: 1.8rem; font-weight: 600; text-transform: uppercase; padding: 0 16px; line-height: 1; }
+.sell-model > span:last-child { padding: 0 16px; font-size: .85rem; color: var(--gold); font-family: var(--font-tech); }
+@media (max-width: 860px) { .sell-models { grid-template-columns: repeat(2, 1fr); } }
+.raid-band-bg.is-photo .photo, .raid-hero-bg .photo { object-fit: cover; }

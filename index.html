@@ -9,8 +9,9 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;1,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Teko:wght@500;600&family=Rajdhani:wght@500;600;700&family=Oxanium:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/sport.css">
   <noscript><style>body{opacity:1}.reveal,.rise{opacity:1;transform:none}</style></noscript>
 </head>
 <body data-page="home">
@@ -20,15 +21,21 @@
     <section class="hero">
       <div class="hero-bg" id="hero-bg" aria-hidden="true"></div>
       <div class="hero-shade" aria-hidden="true"></div>
+      <div class="speedlines" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
       <div class="container hero-grid">
         <div class="hero-copy">
           <p class="eyebrow rise">Spécialiste buggys Can-Am</p>
-          <h1 class="rise d1">Le terrain de jeu <em>n'a plus de limite</em></h1>
-          <p class="rise d2">Achat, vente et préparation de buggys Can-Am, raids et randonnées encadrés dans les plus beaux paysages du Maroc.</p>
+          <h1 class="title-anim"><span class="line"><span>Plein gaz</span></span><span class="line"><span><em>sur le désert</em></span></span></h1>
+          <p class="rise d2">Achat, vente et préparation de buggys Can-Am. Raids et randonnées dans les plus beaux paysages du Maroc.</p>
           <div class="hero-actions rise d3">
-            <a class="btn btn-gold" href="achat.html">Voir les buggys</a>
-            <a class="btn btn-outline" href="raids.html">Raids & Randonnées</a>
+            <a class="btn btn-gold" href="achat.html">Voir les buggys <span class="arrow">→</span></a>
+            <a class="btn btn-outline" href="raids.html">Royal Raid Maroc</a>
           </div>
+          <nav class="hero-quick rise d4" aria-label="Accès rapide">
+            <a href="achat.html"><b>Achat</b><span>Maverick X3 →</span></a>
+            <a href="vente.html"><b>Vente</b><span>Proposer mon buggy →</span></a>
+            <a href="raids.html"><b>Raids</b><span>8–12 déc. 2026 →</span></a>
+          </nav>
         </div>
         <div class="hero-car" id="hero-car"></div>
       </div>
@@ -44,22 +51,24 @@
           <p class="muted">Que vous cherchiez votre prochain buggy, souhaitiez vendre le vôtre ou partir à l'aventure, nous vous accompagnons.</p>
         </div>
         <div class="tiles">
-          <a class="tile reveal" href="achat.html"><span class="tile-num">01</span><h3>Achat</h3><p>Les modèles Maverick X3 que nous recherchons pour vous, fiches techniques officielles à l'appui.</p><span class="tile-go">Découvrir →</span></a>
-          <a class="tile reveal" href="vente.html"><span class="tile-num">02</span><h3>Vente</h3><p>Vous vendez votre buggy ? Proposez-le en quelques minutes avec vos photos.</p><span class="tile-go">Proposer mon buggy →</span></a>
+          <a class="tile reveal from-left" href="achat.html"><span class="tile-num">01</span><h3>Achat</h3><p>Les modèles Maverick X3 que nous recherchons pour vous, fiches techniques officielles à l'appui.</p><span class="tile-go">Découvrir →</span></a>
+          <a class="tile reveal zoom" href="vente.html"><span class="tile-num">02</span><h3>Vente</h3><p>Vous vendez votre buggy ? Proposez-le en quelques minutes avec vos photos.</p><span class="tile-go">Proposer mon buggy →</span></a>
           <a class="tile reveal" href="raids.html"><span class="tile-num">03</span><h3>Raids & Randonnées</h3><p>Royal Raid Maroc au départ de Marrakech et prochaines sorties.</p><span class="tile-go">Voir les raids →</span></a>
-          <a class="tile reveal" href="videos.html"><span class="tile-num">04</span><h3>Vidéos</h3><p>Essais, randonnées et raids en images.</p><span class="tile-go">Regarder →</span></a>
+          <a class="tile reveal from-right" href="videos.html"><span class="tile-num">04</span><h3>Vidéos</h3><p>Essais, randonnées et raids en images.</p><span class="tile-go">Regarder →</span></a>
         </div>
       </div>
     </section>
 
+    <div class="stripe" aria-hidden="true"></div>
     <section class="section raid-band">
-      <div class="raid-band-bg" data-scene="dunes" aria-hidden="true"></div>
+      <div class="raid-band-bg" data-photo="raid" data-scene="dunes" aria-hidden="true"></div>
       <div class="container raid-band-inner reveal">
         <p class="eyebrow">Prochaine aventure</p>
         <h2>Royal Raid <em>Maroc</em></h2>
-        <p class="raid-dates">Du 8 au 13 décembre 2026 · Marrakech <span class="tbc">Dates à confirmer</span></p>
+        <p class="raid-dates">Du 8 au 12 décembre 2026 · Marrakech <span class="tbc">Dates à confirmer</span></p>
+        <div class="countdown" data-countdown="2026-12-08T08:00:00" aria-label="Compte à rebours avant le départ"></div>
         <div class="hero-actions">
-          <a class="btn btn-gold" href="raids.html">En savoir plus</a>
+          <a class="btn btn-gold" href="raids.html">En savoir plus <span class="arrow">→</span></a>
           <a class="btn btn-outline" href="contact.html?sujet=raid">Se renseigner</a>
         </div>
       </div>

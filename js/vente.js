@@ -61,6 +61,21 @@
     }
   );
 
+  // Modèles étudiés en reprise (pas d'annonce, pas de prix)
+  document.getElementById("sell-models").innerHTML = MODELS.map(
+    (m) => `<button type="button" class="sell-model reveal zoom" data-model="${PA.escape(m.name)}">
+      <span class="sell-model-img">${m.photo && PA.photo(m.photo) ? PA.photoHTML(m.photo) : PA.buggySVG(m)}</span>
+      <b>${PA.escape(m.short)}</b><span>Proposer ce modèle →</span></button>`
+  ).join("");
+  document.getElementById("sell-models").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-model]");
+    if (!b) return;
+    form.elements.model.value = b.dataset.model;
+    form.elements.model.dispatchEvent(new Event("change"));
+    form.scrollIntoView({ behavior: "smooth", block: "start" });
+    setTimeout(() => form.elements.year.focus({ preventScroll: true }), 600);
+  });
+
   const other = document.getElementById("other-field");
   const toggleOther = () => (other.hidden = form.elements.model.value !== "Autre");
   form.elements.model.addEventListener("change", toggleOther);

@@ -26,6 +26,13 @@ window.SITE_CONFIG = {
   heroPhoto: "", // ex. "media/accueil.jpg" — grande photo de l'accueil
 };
 
+/* Photos sous licence libre (Wikimedia Commons), téléchargées dans media/.
+   Les crédits (auteur + licence) s'affichent automatiquement : obligatoires
+   pour les licences CC BY / CC BY-SA. Clés utilisées par le site :
+   hero (accueil), raid (bandeaux raid), raid2 (fiche du raid), xrs, x3…
+   Pour vos propres photos : ajoutez une entrée { src, alt, title, author: "PRESTIGE AUTO" }. */
+window.PHOTOS = {};
+
 const OFFICIAL_BASE = "https://can-am.brp.com/off-road/ca/fr/modeles/cote-a-cote/sport/maverick-x3.html/trim/";
 const SPEC_BASE = "https://can-am.brp.com/content/dam/global/en/can-am-off-road/my27/spec-sheets/na/fr/";
 
@@ -171,7 +178,7 @@ window.MODELS = [
 window.RAIDS = {
   main: {
     name: "Royal Raid Maroc",
-    dates: "Du 8 au 13 décembre 2026",
+    dates: "Du 8 au 12 décembre 2026",
     status: "Dates à confirmer",
     place: "Marrakech, Maroc",
   },

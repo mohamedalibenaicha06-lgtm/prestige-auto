@@ -5,9 +5,14 @@
 
   /* ---------- Accueil ---------- */
   if ($("hero-bg")) {
-    if (cfg.heroPhoto) {
-      $("hero-bg").innerHTML = PA.media(cfg.heroPhoto, "", "Buggy Can-Am en action");
-      document.querySelector(".hero").classList.add("has-photo");
+    const ph = PA.photo("hero");
+    if (ph || cfg.heroPhoto) {
+      $("hero-bg").innerHTML = ph ? PA.photoHTML("hero") : PA.media(cfg.heroPhoto, "", "Buggy Can-Am en action");
+      const hero = document.querySelector(".hero");
+      hero.classList.add("has-photo");
+      if (ph && ph.focus) hero.style.setProperty("--focus", ph.focus);
+      if (ph) hero.insertAdjacentHTML("beforeend", `<p class="photo-credit">Photo : ${PA.escape(ph.author)} · <a href="${PA.escape(ph.licenseUrl)}" target="_blank" rel="noopener">${PA.escape(ph.license)}</a></p>`);
+      $("hero-car").remove();
     } else {
       $("hero-bg").innerHTML = PA.sceneSVG("dunes");
       $("hero-car").innerHTML = PA.buggySVG(MODELS[0], { title: "Illustration d'un buggy Can-Am Maverick X3" });
@@ -27,16 +32,17 @@
   if ($("gallery")) {
     const r = RAIDS.main;
     const g = RAIDS.gallery;
-    $("raid-visual").innerHTML = PA.media(g[0] && g[0].src, PA.sceneSVG("dunes", { title: "Illustration : dunes du Maroc" }), r.name);
+    $("raid-visual").innerHTML = PA.photoHTML("raid2", PA.media(g[0] && g[0].src, PA.sceneSVG("dunes", { title: "Illustration : dunes du Maroc" }), r.name));
+    const top = $("raid-wa-top"); if (top) top.href = PA.waLink(`Bonjour PRESTIGE AUTO, je souhaite me renseigner sur le ${r.name} (${r.dates}, ${r.place}).`);
     $("raid-wa").href = PA.waLink(`Bonjour PRESTIGE AUTO, je souhaite me renseigner sur le ${r.name} (${r.dates}, ${r.place}).`);
 
-    const art = (it) => PA.media(it.src, PA.sceneSVG(it.scene, { title: "Illustration : " + it.caption }), it.caption);
+    const art = (it) => PA.photoHTML(it.photo, PA.media(it.src, PA.sceneSVG(it.scene, { title: "Illustration : " + it.caption }), it.caption));
     $("gallery").innerHTML = g
       .map(
         (it, i) => `
         <button type="button" class="gallery-item reveal" data-i="${i}" aria-label="Agrandir : ${PA.escape(it.caption)}">
           ${art(it)}
-          <span class="gallery-caption">${PA.escape(it.caption)}${it.src ? "" : " <small>· photo à venir</small>"}</span>
+          <span class="gallery-caption">${PA.escape(it.caption)}${it.src || PA.photo(it.photo) ? "" : " <small>· photo à venir</small>"}</span>
         </button>`
       )
       .join("");
