@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0a0a0b">
+  <title>Contact — PRESTIGE AUTO</title>
+  <meta name="description" content="Contactez PRESTIGE AUTO (site de démonstration, coordonnées fictives).">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <noscript><style>body{opacity:1}.reveal,.rise{opacity:1;transform:none}</style></noscript>
+</head>
+<body data-page="contact">
+  <header id="site-header" class="site-header"></header>
+
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <p class="eyebrow rise">Contact</p>
+        <h1 class="rise d1">Parlons de <em>votre projet</em></h1>
+        <p class="rise d2">Une question, un essai, une reprise ? Écrivez-nous : un conseiller vous répondra rapidement.</p>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:50px">
+      <div class="container contact-layout">
+        <div class="panel reveal">
+          <form id="contact-form" novalidate>
+            <div class="form-grid">
+              <div class="field">
+                <label for="name">Nom complet <span class="req">*</span></label>
+                <input class="input" id="name" name="name" type="text" autocomplete="name" required minlength="2" maxlength="80">
+                <p class="field-error" id="name-error" aria-live="polite"></p>
+              </div>
+              <div class="field">
+                <label for="email">E-mail <span class="req">*</span></label>
+                <input class="input" id="email" name="email" type="email" autocomplete="email" inputmode="email" required>
+                <p class="field-error" id="email-error" aria-live="polite"></p>
+              </div>
+              <div class="field">
+                <label for="phone">Téléphone</label>
+                <input class="input" id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="Facultatif">
+                <p class="field-error" id="phone-error" aria-live="polite"></p>
+              </div>
+              <div class="field">
+                <label for="subject">Objet <span class="req">*</span></label>
+                <select class="select" id="subject" name="subject" required>
+                  <option value="">Choisir…</option>
+                  <option value="info">Demande d'information</option>
+                  <option value="essai">Demande d'essai</option>
+                  <option value="reprise">Estimation de reprise</option>
+                  <option value="financement">Financement</option>
+                  <option value="autre">Autre</option>
+                </select>
+                <p class="field-error" id="subject-error" aria-live="polite"></p>
+              </div>
+              <div class="field field-full">
+                <label for="vehicle">Véhicule concerné</label>
+                <select class="select" id="vehicle" name="vehicle">
+                  <option value="">Aucun en particulier</option>
+                </select>
+                <p class="field-error"></p>
+              </div>
+              <div class="field field-full">
+                <label for="message">Message <span class="req">*</span></label>
+                <textarea class="textarea" id="message" name="message" required minlength="20" maxlength="1000"></textarea>
+                <span class="counter" id="counter">0 / 1000</span>
+                <p class="field-error" id="message-error" aria-live="polite"></p>
+              </div>
+              <div class="field field-full">
+                <label class="check" for="consent" style="text-transform:none;letter-spacing:0;font-weight:400">
+                  <input type="checkbox" id="consent" name="consent" required>
+                  <span>J'accepte que mes informations soient utilisées pour être recontacté(e) au sujet de ma demande.</span>
+                </label>
+                <p class="field-error" id="consent-error" aria-live="polite"></p>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-gold btn-block" style="margin-top:8px">Envoyer ma demande</button>
+            <p class="form-note">Site de démonstration : aucune donnée n'est envoyée ni enregistrée.</p>
+          </form>
+          <div class="form-success" id="form-success" role="status" tabindex="-1">
+            <div class="tick" aria-hidden="true">✓</div>
+            <h2>Merci <em id="success-name"></em></h2>
+            <p class="muted">Votre demande a bien été validée. Dans cette version de démonstration, aucun message n'est réellement envoyé.</p>
+            <button type="button" class="btn btn-outline" id="new-message">Nouvelle demande</button>
+          </div>
+        </div>
+
+        <aside class="reveal">
+          <div class="panel">
+            <h2>Le <em>showroom</em></h2>
+            <p><span class="demo-flag">Coordonnées fictives</span></p>
+            <ul class="info-list" id="info-list"></ul>
+            <a class="btn btn-wa btn-block js-wa" style="margin-top:24px" href="#" target="_blank" rel="noopener">Écrire sur WhatsApp</a>
+            <div class="map-placeholder">
+              <div><div class="map-pin"></div>Plan d'accès<br>(emplacement à définir)</div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer id="site-footer" class="site-footer"></footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/car-svg.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/contact.js"></script>
+</body>
+</html>
