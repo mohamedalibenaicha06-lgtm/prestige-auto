@@ -6,6 +6,15 @@
   <meta name="theme-color" content="#090909">
   <title>BEST OF PINS — Buggys Can-Am : achat, vente, raids</title>
   <meta name="description" content="BEST OF PINS : spécialiste des buggys Can-Am. Achat, vente entre particuliers, raids et randonnées au Maroc.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="BEST OF PINS">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:title" content="BEST OF PINS — Buggys Can-Am : achat, vente, raids">
+  <meta property="og:description" content="BEST OF PINS : spécialiste des buggys Can-Am. Achat, vente entre particuliers, raids et randonnées au Maroc.">
+  <meta property="og:image" content="https://mohamedalibenaicha06-lgtm.github.io/prestige-auto/assets/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="assets/favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,7 +22,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Teko:wght@500;600&family=Rajdhani:wght@500;600;700&family=Oxanium:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/sport.css">
-  <script>document.documentElement.classList.add("fx")</script>
+  <script>(function(d){d.classList.add("fx");try{var s=sessionStorage;if(matchMedia("(prefers-reduced-motion: reduce)").matches);else if(s.getItem("bop-wipe")){s.removeItem("bop-wipe");d.classList.add("wipe-in")}else if(!s.getItem("bop-seen"))d.classList.add("intro");s.setItem("bop-seen","1")}catch(e){}setTimeout(function(){if(!d.classList.contains("js-ok")){d.classList.remove("fx");d.classList.add("no-fx")}},4000)})(document.documentElement)</script>
   <noscript><style>body{opacity:1}.reveal,.rise{opacity:1;transform:none}</style></noscript>
 </head>
 <body data-page="home">
@@ -23,10 +32,17 @@
     <section class="home-hero" aria-labelledby="home-title">
       <h1 class="sr-only" id="home-title">BEST OF PINS — buggys Can-Am : achat, vente et Royal Raid Maroc</h1>
       <figure class="xrs-photo" data-para="0.12">
-        <picture>
-          <source media="(max-width: 700px)" srcset="media/xrs-studio-800.webp" width="800" height="530">
-          <img src="media/xrs-studio.webp" width="1290" height="855" alt="Buggy Can-Am Maverick X3 rouge, noir et blanc photographié en studio sur fond noir" fetchpriority="high" decoding="async">
-        </picture>
+        <div class="xrs-frame">
+          <picture>
+            <source media="(max-width: 700px)" srcset="media/xrs-studio-800.webp" width="800" height="530">
+            <img src="media/xrs-studio.webp" width="1290" height="855" alt="Buggy Can-Am Maverick X3 rouge, noir et blanc photographié en studio sur fond noir" fetchpriority="high" decoding="async">
+          </picture>
+          <span class="xrs-word" aria-hidden="true"><span>Maverick</span></span>
+          <picture class="xrs-cut" aria-hidden="true">
+            <source media="(max-width: 700px)" srcset="media/xrs-studio-cut-800.webp" width="800" height="530">
+            <img src="media/xrs-studio-cut.webp" width="1290" height="855" alt="" decoding="async">
+          </picture>
+        </div>
       </figure>
       <div class="container next-raid">
         <h2 class="nr-title">Prochain raid</h2>
@@ -38,13 +54,17 @@
       </div>
     </section>
 
+    <div class="ghost-band" aria-hidden="true">
+      <div class="ghost-track"><span>Achat</span><i></i><span>Vente</span><i></i><b>Raid</b><i></i><span>Best of Pins</span><i></i><span>Achat</span><i></i><span>Vente</span><i></i><b>Raid</b><i></i><span>Best of Pins</span><i></i><span>Achat</span><i></i><span>Vente</span><i></i><b>Raid</b></div>
+    </div>
+
     <section class="section showroom-section">
       <div class="container">
         <div class="section-head reveal">
           <div>
             <h2>La gamme <em>Maverick X3</em></h2>
           </div>
-          <p class="muted">Choisissez un modèle. Sur téléphone, faites glisser la scène pour passer au suivant.</p>
+          <p class="muted">Quatre versions, un même tempérament. Touchez une catégorie ou faites glisser la scène pour passer d'un modèle à l'autre.</p>
         </div>
         <div class="showroom reveal" id="showroom"></div>
       </div>
@@ -58,15 +78,32 @@
           </div>
           <p class="muted">Que vous cherchiez votre prochain buggy, souhaitiez vendre le vôtre ou partir à l'aventure, nous vous accompagnons.</p>
         </div>
-        <div class="tiles">
-          <a class="tile reveal from-left" href="achat.html"><span class="tile-num">01</span><h3>Achat</h3><p>Les modèles Maverick X3 que nous recherchons pour vous, fiches techniques officielles à l'appui.</p><span class="tile-go">Découvrir →</span></a>
-          <a class="tile reveal zoom" href="vente.html"><span class="tile-num">02</span><h3>Vente</h3><p>Vous vendez votre buggy ? Proposez-le en quelques minutes avec vos photos.</p><span class="tile-go">Proposer mon buggy →</span></a>
-          <a class="tile reveal" href="raids.html"><span class="tile-num">03</span><h3>Raids & Randonnées</h3><p>Royal Raid Maroc au départ de Marrakech et prochaines sorties.</p><span class="tile-go">Voir les raids →</span></a>
-          <a class="tile reveal from-right" href="videos.html"><span class="tile-num">04</span><h3>Vidéos</h3><p>Essais, randonnées et raids en images.</p><span class="tile-go">Regarder →</span></a>
+        <div class="tiles posters">
+          <a class="tile poster reveal" href="achat.html"><div class="tile-img" data-photo="affAchat"></div><div class="tile-txt"><span class="tile-num">01</span><h3>Achat</h3><p>Les Maverick X3 que nous recherchons pour vous, fiches techniques officielles à l'appui.</p><span class="tile-go">Découvrir ›</span></div></a>
+          <a class="tile poster reveal" href="vente.html"><div class="tile-img" data-photo="affVente"></div><div class="tile-txt"><span class="tile-num">02</span><h3>Vente</h3><p>Vous vendez votre buggy ? Proposez-le en quelques minutes avec vos photos.</p><span class="tile-go">Proposer mon buggy ›</span></div></a>
+          <a class="tile poster reveal" href="raids.html"><div class="tile-img" data-photo="affRaid"></div><div class="tile-txt"><span class="tile-num">03</span><h3>Raid</h3><p>Royal Raid Maroc au départ de Marrakech et prochaines sorties.</p><span class="tile-go">Voir le raid ›</span></div></a>
+          <a class="tile poster reveal" href="videos.html"><div class="tile-img" data-photo="affVideos"></div><div class="tile-txt"><span class="tile-num">04</span><h3>Vidéos</h3><p>Essais, randonnées et raids en images.</p><span class="tile-go">Regarder ›</span></div></a>
         </div>
       </div>
     </section>
 
+
+    <div class="stripe" aria-hidden="true"></div>
+    <section class="section raid-band" aria-labelledby="rb-title">
+      <div class="raid-band-bg" data-photo="hero" data-scene="dunes" data-depth aria-hidden="true"></div>
+      <div class="container raid-band-inner">
+        <div class="section-head reveal" style="margin-bottom:0;display:block">
+          <h2 id="rb-title">Cap sur <em>le désert</em></h2>
+        </div>
+        <ul class="rb-facts reveal">
+          <li>Royal Raid Maroc</li><li>Départ Marrakech</li><li>8 – 12 décembre 2026</li>
+        </ul>
+        <div class="hero-actions reveal">
+          <a class="btn btn-gold" href="raids.html">Découvrir le raid <span class="arrow">›</span></a>
+          <a class="btn btn-outline" href="contact.html?sujet=raid">Demander des informations</a>
+        </div>
+      </div>
+    </section>
 
     <section class="section">
       <div class="container">

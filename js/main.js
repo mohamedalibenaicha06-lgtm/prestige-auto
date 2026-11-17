@@ -48,7 +48,8 @@
       </div>
       <nav class="tabs container" aria-label="Rubriques">
         ${tabs.map(([href, label, key]) => `<a class="tab${key === page ? " active" : ""}" href="${href}"${key === page ? ' aria-current="page"' : ""}>${ico[key]}<span>${label}</span></a>`).join("")}
-      </nav>`;
+      </nav>
+      <i class="scroll-line" aria-hidden="true"></i>`;
 
     const burger = document.getElementById("burger");
     const nav = document.getElementById("main-nav");
@@ -62,7 +63,12 @@
     document.getElementById("nav-backdrop").addEventListener("click", () => toggle(false));
     document.addEventListener("keydown", (e) => { if (e.key === "Escape") toggle(false); });
 
-    const onScroll = () => header.classList.toggle("scrolled", window.scrollY > 30);
+    const line = header.querySelector(".scroll-line");
+    const onScroll = () => {
+      header.classList.toggle("scrolled", window.scrollY > 30);
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      line.style.transform = `scaleX(${max > 0 ? Math.min(1, window.scrollY / max) : 0})`;
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
   }
@@ -106,6 +112,9 @@
 
   /* ---------- Transitions de page ---------- */
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // Appareils modestes ou mode « économie de données » : version allégée des effets (classe .lite)
+  const nav = navigator, conn = nav.connection || {};
+  if (conn.saveData || (nav.deviceMemory && nav.deviceMemory <= 2) || (nav.hardwareConcurrency && nav.hardwareConcurrency <= 2)) document.documentElement.classList.add("lite");
   requestAnimationFrame(() => document.body.classList.add("is-loaded"));
   window.addEventListener("pageshow", () => {
     document.body.classList.remove("is-leaving");
@@ -117,14 +126,40 @@
     const href = a.getAttribute("href");
     if (!href || href.startsWith("#") || a.target === "_blank" || e.metaKey || e.ctrlKey || e.shiftKey) return;
     if (/^(https?:|mailto:|tel:)/.test(href)) return;
+    // Lien vers la page courante (ancre) : défilement normal, pas de rideau
+    const url = new URL(a.href, location.href);
+    if (url.pathname === location.pathname && url.search === location.search) return;
     e.preventDefault();
-    // Réaction du bouton (flash + ligne rouge), puis sortie de page courte
+    // Réaction du bouton (flash + ligne rouge), puis rideau noir à liseré rouge qui traverse l'écran
     const hit = a.closest(".tab, .btn, .main-nav a, .tile, .rubric");
     if (hit) { hit.classList.remove("hit"); void hit.offsetWidth; hit.classList.add("hit"); }
-    setTimeout(() => document.body.classList.add("is-leaving"), hit ? 140 : 0);
-    setTimeout(() => (window.location.href = href), hit ? 400 : 300);
+    try { sessionStorage.setItem("bop-wipe", "1"); } catch (_) {}
+    setTimeout(() => document.documentElement.classList.add("wipe-out"), hit ? 110 : 0);
+    setTimeout(() => (window.location.href = href), hit ? 430 : 320);
   });
-  window.addEventListener("pageshow", () => document.querySelectorAll(".hit").forEach((h) => h.classList.remove("hit")));
+  window.addEventListener("pageshow", () => {
+    document.documentElement.classList.remove("wipe-out");
+    document.querySelectorAll(".hit").forEach((h) => h.classList.remove("hit"));
+  });
+
+  /* ---------- Titres de section : découpe mot par mot (animation en cascade) ---------- */
+  document.querySelectorAll(".section-head.reveal h2").forEach((h) => {
+    let k = 0;
+    const walk = (node) => [...node.childNodes].forEach((c) => {
+      if (c.nodeType === 1) return walk(c);
+      if (c.nodeType !== 3) return;
+      const f = document.createDocumentFragment();
+      c.textContent.split(/(\s+)/).forEach((part) => {
+        if (!part) return;
+        if (/^\s+$/.test(part)) return f.append(" ");
+        const w = document.createElement("span");
+        w.className = "w"; w.style.setProperty("--w", k++); w.textContent = part;
+        f.append(w);
+      });
+      c.replaceWith(f);
+    });
+    walk(h);
+  });
 
   /* ---------- Apparition au défilement ---------- */
   PA.observeReveal = function (root = document) {
@@ -182,7 +217,7 @@
   PA.carVisual = function (m, eager) {
     const src = m.views && m.views.length ? m.views[0] : m.cutout;
     return src
-      ? `<img class="car-cutout" src="${PA.escape(src)}" alt="${PA.escape(m.name)}" ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async">`
+      ? `<img class="car-cutout" draggable="false" src="${PA.escape(src)}" alt="${PA.escape(m.name)}" ${eager ? "" : 'loading="lazy"'} decoding="async">`
       : `<div class="car-cutout car-art">${PA.buggySVG(m, { title: "Illustration " + m.name + " (photo détourée à venir)" })}</div>`;
   };
 
@@ -213,65 +248,108 @@
   };
 
   // Sélecteur de modèles façon showroom (Accueil + Achat)
+  // Compteur : « 200 ch », « 787 kg »… montent jusqu'à leur valeur (valeurs simples uniquement).
+  PA.countUp = function (el) {
+    const m = /^(\d+)(\D.*)?$/.exec(el.textContent.trim());
+    if (!m || reduced) return;
+    const target = +m[1], rest = m[2] || "", t0 = performance.now(), dur = 650;
+    const step = (t) => {
+      const k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 4);
+      el.textContent = Math.round(target * e) + rest;
+      if (k < 1) requestAnimationFrame(step);
+    };
+    el.textContent = "0" + rest;
+    requestAnimationFrame(step);
+  };
+
   PA.showroom = function (root) {
-    const ms = window.MODELS;
+    const ms = window.MODELS, n = ms.length, pad = (i) => String(i).padStart(2, "0");
     root.innerHTML = `
       <div class="sr-tabs" role="tablist" aria-label="Choisir un modèle">${ms
-        .map((m, i) => `<button type="button" role="tab" class="sr-tab" aria-selected="${!i}" data-i="${i}"><b>${PA.escape(m.short)}</b><span>${m.seats} places</span></button>`)
+        .map((m, i) => `<button type="button" role="tab" class="sr-tab" aria-selected="${!i}" tabindex="${i ? -1 : 0}" data-i="${i}">
+          <span class="sr-thumb">${m.thumb || m.cutout ? `<img src="${PA.escape(m.thumb || m.cutout)}" alt="" width="360" height="224" loading="lazy" decoding="async">` : PA.buggySVG(m, {})}</span>
+          <b>${PA.escape(m.short)}</b><span class="sr-seats">${m.seats} places</span></button>`)
         .join("")}</div>
       <div class="sr-main">
         <div class="sr-stage" role="tabpanel">
+          <span class="sr-count" aria-hidden="true"><b>01</b><i></i>${pad(n)}</span>
           <span class="stage-word" aria-hidden="true"></span>
           <div class="sr-drive"><div class="sr-car"></div></div>
           <div class="sr-floor" aria-hidden="true"></div>
+          <i class="sr-scan" aria-hidden="true"></i>
+          <button type="button" class="sr-arrow sr-prev" aria-label="Modèle précédent"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 5-7 7 7 7"/></svg></button>
+          <button type="button" class="sr-arrow sr-next" aria-label="Modèle suivant"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 5 7 7-7 7"/></svg></button>
           <p class="sr-hint"></p>
         </div>
         <div class="sr-info"></div>
       </div>`;
     const stage = root.querySelector(".sr-stage"), car = root.querySelector(".sr-car"), info = root.querySelector(".sr-info");
-    let cur = -1;
-    function show(i) {
-      if (i === cur) return;
-      const m = ms[i], dir = i > cur ? 1 : -1;
-      cur = i;
-      root.querySelectorAll(".sr-tab").forEach((t, j) => t.setAttribute("aria-selected", String(j === i)));
-      stage.style.setProperty("--dir", dir);
-      stage.classList.remove("in"); void stage.offsetWidth;
+    const tabsEl = root.querySelector(".sr-tabs"), tabs = [...root.querySelectorAll(".sr-tab")];
+    let cur = -1, timer;
+    function fill(m, i) {
       stage.querySelector(".stage-word").textContent = m.short;
+      stage.querySelector(".sr-count b").textContent = pad(i + 1);
       car.innerHTML = PA.carVisual(m, i === 0);
       const is360 = PA.spin360(stage, m.views);
-      root.querySelector(".sr-hint").textContent = is360 ? "↔ Faites glisser pour tourner autour" : "Vue 360° bientôt disponible";
-      stage.classList.add("in");
+      root.querySelector(".sr-hint").textContent = is360 ? "↔ Faites glisser pour tourner autour" : m.photoTemp ? "Photo provisoire · visuel non contractuel" : "";
+      stage.classList.remove("out"); void stage.offsetWidth; stage.classList.add("in");
+      const [pw, unit] = [m.key.power.replace(/\D+$/, ""), m.key.power.replace(/^[\d\s.,]+/, "")];
       info.innerHTML = `
         <p class="car-brand">Can-Am · ${PA.escape(m.family)} · ${m.year}</p>
         <h3 class="sr-name">${PA.escape(m.name)}</h3>
         <p class="muted">${PA.escape(m.tagline)}</p>
+        <div class="sr-power"><b class="js-num">${PA.escape(pw)}</b><span>${PA.escape(unit)}</span><small>Puissance</small><i aria-hidden="true"></i></div>
         <ul class="sr-specs">
-          <li><b>${m.key.power}</b><span>Puissance</span></li>
-          <li><b>${m.key.travel}</b><span>Débattement</span></li>
+          <li><b>${m.key.travel}</b><span>Débattement av./arr.</span></li>
           <li><b>${m.key.clearance}</b><span>Garde au sol</span></li>
-          <li><b>${m.key.weight}</b><span>Poids à sec</span></li>
+          <li><b class="js-num">${m.key.weight}</b><span>Poids à sec</span></li>
         </ul>
         <p class="sr-status">${m.available ? PA.escape(m.price || "Prix sur demande") : "Exemple — non disponible à la vente"}</p>
         <div class="card-actions">
           <a class="btn btn-gold" href="achat.html#${m.id}">Voir le véhicule <span class="arrow">›</span></a>
           <a class="btn btn-outline" href="${PA.waLink("Bonjour BEST OF PINS, je souhaite des informations sur le " + m.name + ".")}" target="_blank" rel="noopener">WhatsApp</a>
         </div>`;
+      info.querySelectorAll(".js-num").forEach(PA.countUp);
     }
-    root.querySelector(".sr-tabs").addEventListener("click", (e) => { const t = e.target.closest(".sr-tab"); if (t) show(+t.dataset.i); });
-    root.querySelector(".sr-tabs").addEventListener("keydown", (e) => {
+    function show(i) {
+      i = (i + n) % n;
+      if (i === cur) return;
+      const first = cur < 0, dir = i > cur ? 1 : -1;
+      cur = i;
+      tabs.forEach((t, j) => { t.setAttribute("aria-selected", String(j === i)); t.tabIndex = j === i ? 0 : -1; });
+      if (!first && tabsEl.scrollWidth > tabsEl.clientWidth) tabsEl.scrollTo({ left: tabs[i].offsetLeft - (tabsEl.clientWidth - tabs[i].offsetWidth) / 2, behavior: reduced ? "auto" : "smooth" });
+      stage.style.setProperty("--dir", dir);
+      clearTimeout(timer);
+      if (first || reduced) return fill(ms[i], i);
+      // Sortie rapide du modèle affiché, puis entrée du suivant (freinage)
+      stage.classList.remove("in"); stage.classList.add("out");
+      timer = setTimeout(() => fill(ms[i], i), 170);
+    }
+    tabsEl.addEventListener("click", (e) => { const t = e.target.closest(".sr-tab"); if (t) show(+t.dataset.i); });
+    tabsEl.addEventListener("keydown", (e) => {
       if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
-      const n = (cur + (e.key === "ArrowRight" ? 1 : -1) + ms.length) % ms.length;
-      show(n); root.querySelectorAll(".sr-tab")[n].focus();
+      show(cur + (e.key === "ArrowRight" ? 1 : -1)); tabs[cur].focus();
     });
+    root.querySelector(".sr-prev").addEventListener("click", () => show(cur - 1));
+    root.querySelector(".sr-next").addEventListener("click", () => show(cur + 1));
     // Glisser horizontalement sur la scène = modèle suivant (sauf en mode 360°)
     let sx = null;
-    stage.addEventListener("pointerdown", (e) => { if (!stage.classList.contains("is-360")) sx = e.clientX; });
+    stage.addEventListener("pointerdown", (e) => { if (!stage.classList.contains("is-360") && !e.target.closest(".sr-arrow")) sx = e.clientX; });
     stage.addEventListener("pointerup", (e) => {
       if (sx === null) return;
       const d = e.clientX - sx; sx = null;
-      if (Math.abs(d) > 50) show((cur + (d < 0 ? 1 : -1) + ms.length) % ms.length);
+      if (Math.abs(d) > 50) show(cur + (d < 0 ? 1 : -1));
     });
+    stage.addEventListener("pointercancel", () => (sx = null));
+    // Ordinateur : légère profondeur, le buggy et le mot suivent le pointeur en sens inverse
+    if (!reduced && window.matchMedia("(hover: hover)").matches) {
+      stage.addEventListener("pointermove", (e) => {
+        const r = stage.getBoundingClientRect();
+        stage.style.setProperty("--mx", (((e.clientX - r.left) / r.width) * 2 - 1).toFixed(3));
+        stage.style.setProperty("--my", (((e.clientY - r.top) / r.height) * 2 - 1).toFixed(3));
+      });
+      stage.addEventListener("pointerleave", () => { stage.style.setProperty("--mx", 0); stage.style.setProperty("--my", 0); });
+    }
     show(0);
   };
 
@@ -284,6 +362,7 @@
           <span class="badge badge-fuel">${m.seats} places</span>
           <span class="stage-word" aria-hidden="true">${PA.escape(m.short)}</span>
           ${PA.carVisual(m)}
+          ${m.photoTemp && m.cutout ? '<span class="photo-temp">Photo provisoire</span>' : ""}
           ${m.available ? "" : '<span class="sample-flag">Exemple — non disponible à la vente</span>'}
         </div>
         <div class="car-card-body">
@@ -334,7 +413,8 @@
 
   /* ---------- Séquence « Prochain raid » : jouée une fois, à l'arrivée dans la section ---------- */
   document.querySelectorAll(".next-raid").forEach((el) => {
-    const play = () => setTimeout(() => el.classList.add("is-on"), Math.max(0, 560 - performance.now()));
+    const cl = document.documentElement.classList, t0 = cl.contains("intro") ? 900 : cl.contains("wipe-in") ? 200 : 0;
+    const play = () => setTimeout(() => el.classList.add("is-on"), Math.max(0, 560 + t0 - performance.now()));
     if (reduced || !("IntersectionObserver" in window)) return el.classList.add("is-on");
     const io = new IntersectionObserver((en) => { if (en[0].isIntersecting) { play(); io.disconnect(); } }, { threshold: 0.2 });
     io.observe(el);
@@ -401,4 +481,5 @@
     PA.observeReveal();
     PA.observeCounters();
   });
+  document.documentElement.classList.add("js-ok"); // script chargé jusqu'au bout (voir le garde-fou dans <head>)
 })();

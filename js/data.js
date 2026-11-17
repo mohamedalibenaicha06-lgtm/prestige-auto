@@ -48,6 +48,11 @@ window.PHOTOS = {
   g4: { ...OWN, src: "media/maroc-plage.webp", alt: "Buggy couvert de boue au coucher du soleil sur la plage" },
   g5: { ...OWN, src: "media/maroc-etape.webp", alt: "Buggys arrivés à l'étape" },
   g6: { ...OWN, src: "media/maroc-dune.webp", alt: "Buggy face à l'immensité du désert" },
+  // Affiches de l'accueil (format 3:4, 560 px) — mêmes photos, recadrées et allégées
+  affAchat: { ...OWN, src: "media/aff-achat.webp", alt: "" },
+  affVente: { ...OWN, src: "media/aff-vente.webp", alt: "" },
+  affRaid: { ...OWN, src: "media/aff-raid.webp", alt: "" },
+  affVideos: { ...OWN, src: "media/aff-videos.webp", alt: "" },
   v1: { ...OWN, src: "media/buggy-orange.webp", alt: "" },
   v2: { ...OWN, src: "media/buggy-jaune.webp", alt: "" },
   v3: { ...OWN, src: "media/buggy-blanc.webp", alt: "" },
@@ -69,7 +74,9 @@ window.MODELS = [
     photo: "xrs",
     photoNote: "Visuel d'ambiance — non contractuel",
     // --- Showroom (modifiable) ---
-    cutout: "", // photo détourée, fond transparent (PNG/WebP), ex. "media/showroom/x-rs.webp"
+    cutout: "media/showroom/buggy-studio.webp", // grande photo détourée (fond transparent, PNG/WebP) — remplaçable modèle par modèle
+    thumb: "media/showroom/buggy-studio-360.webp", // miniature de la carte de catégorie (≈ 360 px de large)
+    photoTemp: true, // true = photo provisoire commune aux 4 modèles (affiche « Photo provisoire ») ; false quand la vraie photo du modèle est en place
     views: [], // vue 360° : 24 à 36 photos prises en tournant autour du buggy, dans l'ordre
     price: "", // ex. "32 900 €" ; vide = "Prix sur demande"
     mileage: "", // kilométrage réel du véhicule en vente, ex. "3 500 km" ; vide = « — »
@@ -110,7 +117,9 @@ window.MODELS = [
     photo: "xrc",
     photoNote: "Visuel d'ambiance — non contractuel",
     // --- Showroom (modifiable) ---
-    cutout: "", // photo détourée, fond transparent (PNG/WebP), ex. "media/showroom/x-rs.webp"
+    cutout: "media/showroom/buggy-studio.webp", // grande photo détourée (fond transparent, PNG/WebP) — remplaçable modèle par modèle
+    thumb: "media/showroom/buggy-studio-360.webp", // miniature de la carte de catégorie (≈ 360 px de large)
+    photoTemp: true, // true = photo provisoire commune aux 4 modèles (affiche « Photo provisoire ») ; false quand la vraie photo du modèle est en place
     views: [], // vue 360° : 24 à 36 photos prises en tournant autour du buggy, dans l'ordre
     price: "", // ex. "32 900 €" ; vide = "Prix sur demande"
     mileage: "", // kilométrage réel du véhicule en vente, ex. "3 500 km" ; vide = « — »
@@ -151,7 +160,9 @@ window.MODELS = [
     photo: "maxrs",
     photoNote: "Visuel d'ambiance — non contractuel",
     // --- Showroom (modifiable) ---
-    cutout: "", // photo détourée, fond transparent (PNG/WebP), ex. "media/showroom/x-rs.webp"
+    cutout: "media/showroom/buggy-studio.webp", // grande photo détourée (fond transparent, PNG/WebP) — remplaçable modèle par modèle
+    thumb: "media/showroom/buggy-studio-360.webp", // miniature de la carte de catégorie (≈ 360 px de large)
+    photoTemp: true, // true = photo provisoire commune aux 4 modèles (affiche « Photo provisoire ») ; false quand la vraie photo du modèle est en place
     views: [], // vue 360° : 24 à 36 photos prises en tournant autour du buggy, dans l'ordre
     price: "", // ex. "32 900 €" ; vide = "Prix sur demande"
     mileage: "", // kilométrage réel du véhicule en vente, ex. "3 500 km" ; vide = « — »
@@ -191,7 +202,9 @@ window.MODELS = [
     photo: "maxrc",
     photoNote: "Visuel d'ambiance — non contractuel",
     // --- Showroom (modifiable) ---
-    cutout: "", // photo détourée, fond transparent (PNG/WebP), ex. "media/showroom/x-rs.webp"
+    cutout: "media/showroom/buggy-studio.webp", // grande photo détourée (fond transparent, PNG/WebP) — remplaçable modèle par modèle
+    thumb: "media/showroom/buggy-studio-360.webp", // miniature de la carte de catégorie (≈ 360 px de large)
+    photoTemp: true, // true = photo provisoire commune aux 4 modèles (affiche « Photo provisoire ») ; false quand la vraie photo du modèle est en place
     views: [], // vue 360° : 24 à 36 photos prises en tournant autour du buggy, dans l'ordre
     price: "", // ex. "32 900 €" ; vide = "Prix sur demande"
     mileage: "", // kilométrage réel du véhicule en vente, ex. "3 500 km" ; vide = « — »
